@@ -18,6 +18,13 @@ export function PropertyCard() {
       <p className="block antialiased font-sans text-base font-light leading-relaxed text-inherit text-start poppins">
         Massa tempor nec feugiat nisl ...
       </p>
+
+      <button
+        type="button"
+        className="inline-flex w-full justify-center rounded-lg bg-cyan-600 px-5 py-2.5 text-center text-sm font-medium bg-green-500 text-white focus:outline-none focus:ring-4 focus:ring-cyan-200 dark:focus:ring-cyan-900"
+      >
+        Ver Imóvel
+      </button>
     </Card>
   );
 }
