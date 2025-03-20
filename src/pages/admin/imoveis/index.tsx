@@ -1,70 +1,55 @@
+import { DataGrid } from "@/components/admin/Datagrid";
+import { useRouter } from "next/router";
+
+import { DeleteCustomColumn } from "@/modules/imoveis/components/deleteCustomColumn";
+import { EditCustomColumn } from "@/modules/imoveis/components/editCustomColumn";
+import { usePropertiesFindAll } from "@/modules/imoveis/hooks/usePropertyQuery";
 import LayoutAdmin from "@/components/LayoutAdmin";
-import { Table } from "flowbite-react";
+
+const columns = [
+  {
+    headerName: "Imóveis",
+    field: "title",
+  },
+
+  {
+    headerName: "Tipo de Negociação",
+    field: "negotiationType",
+  },
+];
 
 export default function Imoveis() {
-  const data = [
-    { id: 1, nome: "João", idade: 30, cidade: "São Paulo" },
-    { id: 2, nome: "Maria", idade: 25, cidade: "Rio de Janeiro" },
-    { id: 3, nome: "Carlos", idade: 35, cidade: "Belo Horizonte" },
-  ];
+  const { properties } = usePropertiesFindAll();
+  const router = useRouter();
+
+  function handleClick(event: React.MouseEvent<HTMLButtonElement>) {
+    router.push("/admin/imoveis/cadastrar");
+  }
+
   return (
     <LayoutAdmin>
       <div className="bg-white p-4 rounded h-screen ">
         <div className="overflow-x-auto">
-          <Table striped className="border border-gray-300">
-            <Table.Head className="border-b border-gray-300">
-              <Table.HeadCell className="border-r border-gray-300">
-                ID
-              </Table.HeadCell>
-              <Table.HeadCell className="border-r border-gray-300">
-                Nome
-              </Table.HeadCell>
-              <Table.HeadCell className="border-r border-gray-300">
-                Idade
-              </Table.HeadCell>
-              <Table.HeadCell className="border-r border-gray-300">
-                Cidade
-              </Table.HeadCell>
-              <Table.HeadCell className="border-r border-gray-300">
-                Editar
-              </Table.HeadCell>
-              <Table.HeadCell className="border-r border-gray-300">
-                Excluir
-              </Table.HeadCell>
-            </Table.Head>
-            <Table.Body>
-              {data.map((item) => (
-                <Table.Row
-                  className="bg-white dark:border-gray-700 dark:bg-gray-800 border-b border-gray-300"
-                  key={item.id}
-                >
-                  <Table.Cell className="border-r border-gray-300">
-                    {item.id}
-                  </Table.Cell>
-
-                  <Table.Cell className="border-r border-gray-300">
-                    {item.nome}
-                  </Table.Cell>
-
-                  <Table.Cell className="border-r border-gray-300">
-                    {item.idade}
-                  </Table.Cell>
-
-                  <Table.Cell className="border-r border-gray-300">
-                    {item.cidade}
-                  </Table.Cell>
-
-                  <Table.Cell className="border-r border-gray-300">
-                    editar
-                  </Table.Cell>
-
-                  <Table.Cell className="border-r border-gray-300">
-                    excluir
-                  </Table.Cell>
-                </Table.Row>
-              ))}
-            </Table.Body>
-          </Table>
+          <DataGrid
+            rows={properties}
+            columns={columns}
+            addAction={{
+              label: "Cadastrar Imóvel",
+              onClick: handleClick,
+            }}
+            columnsFormatters={[
+              {
+                component: EditCustomColumn,
+                label: "Editar",
+                field: "editar",
+              },
+              {
+                component: DeleteCustomColumn,
+                label: "Excluir",
+                field: "excluir",
+              },
+            ]}
+          />
         </div>
       </div>
     </LayoutAdmin>
