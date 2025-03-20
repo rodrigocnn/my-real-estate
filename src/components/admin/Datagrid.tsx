@@ -8,12 +8,6 @@ interface DatagridColumn {
   sortable?: boolean;
 }
 
-interface Action {
-  label: string;
-  onClick: () => void;
-  className: string;
-}
-
 interface ColumnFormatter<T> {
   field: string;
   component: React.ComponentType<{ row: T }>;
@@ -71,16 +65,24 @@ export function DataGrid<T>(props: DataGridProps<T>) {
 
       <Table striped className="border border-gray-300">
         <Table.Head className="border-b border-gray-300">
-          <Table.HeadCell className="border-r border-gray-300">
-            Cidades
-          </Table.HeadCell>
+          {columns.map((col) => (
+            <Table.HeadCell
+              key={col.field as string}
+              className="border-r border-gray-300"
+              style={{ width: col.width ? `${col.width}px` : "auto" }}
+            >
+              {col.headerName}
+            </Table.HeadCell>
+          ))}
 
-          <Table.HeadCell className="border-r border-gray-300 text-center">
-            Editar
-          </Table.HeadCell>
-          <Table.HeadCell className="border-r border-gray-300 text-center">
-            Excluir
-          </Table.HeadCell>
+          {columnsFormatters?.map((formatter, index) => (
+            <Table.HeadCell
+              key={`formatter-head-${index}`}
+              className="border-r border-gray-300 text-center"
+            >
+              {formatter.label ?? ""}
+            </Table.HeadCell>
+          ))}
         </Table.Head>
         <Table.Body>
           {dataSource?.map((item, rowIndex) => (
