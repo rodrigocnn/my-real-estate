@@ -45,6 +45,8 @@ export function DataGrid<T>(props: DataGridProps<T>) {
     setDataSource(filteredData);
   };
 
+  console.log(dataSource);
+
   return (
     <>
       <div className="flex justify-between mb-4">
