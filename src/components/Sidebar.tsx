@@ -2,9 +2,14 @@ import {
   MdOutlineDashboard,
   MdOutlineLocationCity,
   MdOutlineRealEstateAgent,
+  MdOutlineHouseSiding,
 } from "react-icons/md";
 
+import { FaUserFriends } from "react-icons/fa";
+import { HiOutlineDocumentText } from "react-icons/hi";
 import { FaMapMarkedAlt, FaUsers } from "react-icons/fa";
+import { BsCashStack } from "react-icons/bs";
+
 import ItemSidebar from "./ItemSidebar";
 
 export function Sidebar() {
@@ -13,7 +18,7 @@ export function Sidebar() {
       <div className="flex justify-center py-6">
         <span> Antonio Imóveis </span>
       </div>
-      <nav className="mt-16">
+      <nav className="mt-4">
         <ul>
           <ItemSidebar
             href="/admin"
@@ -22,8 +27,32 @@ export function Sidebar() {
           />
           <ItemSidebar
             href="/admin/cidades"
+            Icon={<MdOutlineHouseSiding className="text-xl" />}
+            label="Proprietários"
+          />
+
+          <ItemSidebar
+            href="/admin/clientes"
+            Icon={<FaUserFriends className="text-xl" />}
+            label="Clientes"
+          />
+
+          <ItemSidebar
+            href="/admin/cidades"
+            Icon={<HiOutlineDocumentText className="text-xl" />}
+            label="Contratos"
+          />
+
+          <ItemSidebar
+            href="/admin/cidades"
+            Icon={<BsCashStack className="text-xl" />}
+            label="Lançamentos"
+          />
+
+          <ItemSidebar
+            href="/admin/cidades"
             Icon={<MdOutlineLocationCity className="text-xl" />}
-            label="Cidade"
+            label="Cidades"
           />
           <ItemSidebar
             href="/admin/bairros"

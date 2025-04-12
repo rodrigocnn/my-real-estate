@@ -10,7 +10,7 @@ export function DeleteCustomColumn(row: any) {
   return (
     <>
       <CustomModal
-        title="Excluir Cidade"
+        title="Excluir Imóvel"
         show={openModal}
         onClose={() => setOpenModal(false)}
         primaryAction={{
