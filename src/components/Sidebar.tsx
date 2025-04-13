@@ -38,7 +38,7 @@ export function Sidebar() {
           />
 
           <ItemSidebar
-            href="/admin/cidades"
+            href="/admin/contratos"
             Icon={<HiOutlineDocumentText className="text-xl" />}
             label="Contratos"
           />
