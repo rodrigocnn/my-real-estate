@@ -1,7 +1,8 @@
 import { useState } from "react";
 
-import { usePropertyDelete } from "./usePropertyMutation";
 import { Property } from "../interfaces";
+import { useDeleteMutation } from "@/hooks/useDeleteMutate";
+import { propsDeleteProperty } from "../constants";
 
 export function useDeleteCustomColum() {
   const [openModal, setOpenModal] = useState(false);
@@ -10,7 +11,7 @@ export function useDeleteCustomColum() {
     mutate: deletePropertyMutate,
     isPending,
     isSuccess,
-  } = usePropertyDelete();
+  } = useDeleteMutation(propsDeleteProperty);
 
   const handleDelete = (row: Property) => {
     setOpenModal(true);

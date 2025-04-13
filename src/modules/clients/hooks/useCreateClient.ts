@@ -1,9 +1,21 @@
 import { MouseEventHandler, useState } from "react";
 import { Client } from "../interfaces";
-import { useClientCreate } from "./useClientMutation";
+import { useCreateMutation } from "@/hooks/useCreateMutation";
+import { clientCreate } from "../api";
 
 export function useCreateCity() {
-  const { mutate: createCityMutate, isPending, status } = useClientCreate();
+  const props = {
+    queryKey: "get-clients",
+    onSuccessMsg: "Cliente cadastrado com sucesso",
+    mutationFn: (client: Client) => clientCreate(client),
+  };
+
+  const {
+    mutate: createCityMutate,
+    isPending,
+    status,
+  } = useCreateMutation<Client>(props);
+
   const [openModal, setOpenModal] = useState(false);
   const [client, setClient] = useState<Client | undefined>();
 

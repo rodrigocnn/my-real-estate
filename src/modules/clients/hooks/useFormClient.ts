@@ -1,23 +1,28 @@
 import { useEffect, useState } from "react";
 import { Client } from "../interfaces";
 
-import { useClientCreate, useClientUpdate } from "./useClientMutation";
+import { useCreateMutation } from "@/hooks/useCreateMutation";
+import {
+  INITIAL_STATE_FORM_CLIENT,
+  propsCreateClient,
+  propsUpdateClient,
+} from "../constants";
+import { useUpdateMutation } from "@/hooks/useUpdateMutation";
 
 export const useFormClient = (initialData?: Client, edit: boolean = false) => {
-  const [form, setForm] = useState<Client>({
-    name: "",
-    email: "",
-    cpf: "",
-    phone: "",
-  });
+  const [form, setForm] = useState<Client>(INITIAL_STATE_FORM_CLIENT);
 
-  const { mutate: createClientMutate, isPending, status } = useClientCreate();
+  const {
+    mutate: createClientMutate,
+    isPending,
+    status,
+  } = useCreateMutation(propsCreateClient);
 
   const {
     mutate: updateClientMutate,
     isPending: isPendingUpdate,
     status: statusUpdate,
-  } = useClientUpdate();
+  } = useUpdateMutation(propsUpdateClient);
 
   // useEffect(() => {
   //   if (initialData) {
@@ -32,19 +37,9 @@ export const useFormClient = (initialData?: Client, edit: boolean = false) => {
   ) => {
     const { name, value } = event.target;
 
-    const numericFields = [
-      "bedrooms",
-      "bathrooms",
-      "suites",
-      "price",
-      "latitude",
-      "longitude",
-    ];
-    const newValue = numericFields.includes(name) ? Number(value) : value;
-
     setForm((prevForm) => ({
       ...prevForm,
-      [name]: newValue,
+      [name]: value,
     }));
   };
 
@@ -70,12 +65,7 @@ export const useFormClient = (initialData?: Client, edit: boolean = false) => {
   };
 
   const resetForm = () => {
-    setForm({
-      name: "",
-      email: "",
-      cpf: "",
-      phone: "",
-    });
+    setForm(INITIAL_STATE_FORM_CLIENT);
   };
 
   return {

@@ -1,7 +1,7 @@
 export interface Property {
   id?: string;
   title: string;
-  negotiationType: "SALE" | "RENT";
+  negotiationType: string;
   description: string;
   bedrooms: number;
   bathrooms: number;

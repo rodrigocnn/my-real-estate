@@ -1,38 +1,31 @@
 import { useEffect, useState } from "react";
+
 import { Property } from "../interfaces";
-import { usePropertyCreate, usePropertyUpdate } from "./usePropertyMutation";
+import { useCreateMutation } from "@/hooks/useCreateMutation";
+import {
+  INITIAL_STATE_FORM_PROPERTY,
+  propsCreateProperty,
+  propsUpdateProperty,
+} from "../constants";
+import { useUpdateMutation } from "@/hooks/useUpdateMutation";
 
 export const useFormProperty = (
   initialData?: Property,
   edit: boolean = false
 ) => {
-  const [form, setForm] = useState<Property>({
-    title: "",
-    negotiationType: "SALE",
-    description: "",
-    bedrooms: 0,
-    bathrooms: 0,
-    suites: 0,
-    price: 0,
-    address: "",
-    latitude: null,
-    longitude: null,
-    neighborhood: "",
-    cityId: "",
-    state: "",
-  });
+  const [form, setForm] = useState<Property>(INITIAL_STATE_FORM_PROPERTY);
 
   const {
     mutate: createPropertyMutate,
     isPending,
     status,
-  } = usePropertyCreate();
+  } = useCreateMutation(propsCreateProperty);
 
   const {
     mutate: updatePropertyMutate,
     isPending: isPendingUpdate,
     status: statusUpdate,
-  } = usePropertyUpdate();
+  } = useUpdateMutation(propsUpdateProperty);
 
   useEffect(() => {
     if (initialData) {
@@ -85,21 +78,7 @@ export const useFormProperty = (
   };
 
   const resetForm = () => {
-    setForm({
-      title: "",
-      negotiationType: "SALE",
-      description: "",
-      bedrooms: 0,
-      bathrooms: 0,
-      suites: 0,
-      price: 0,
-      address: "",
-      latitude: null,
-      longitude: null,
-      neighborhood: "",
-      cityId: "",
-      state: "",
-    });
+    setForm(INITIAL_STATE_FORM_PROPERTY);
   };
 
   return {

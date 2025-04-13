@@ -4,9 +4,14 @@ export interface Contract {
   propertyId: string;
   startDate: string;
   endDate?: string;
-  monthlyRent: number;
-  depositAmount?: number;
+  monthlyRent: number | undefined;
+  depositAmount?: number | undefined;
   status: string;
   createdAt?: Date;
   updatedAt?: Date;
+}
+
+export interface DateFormContract {
+  startDate: Date | null;
+  endDate: Date | null;
 }

@@ -1,7 +1,8 @@
 import { useState } from "react";
 
-import { useContractDelete } from "./useContractMutation";
 import { Contract } from "../interfaces";
+import { useDeleteMutation } from "@/hooks/useDeleteMutate";
+import { propsDeleteContract } from "../constants";
 
 export function useDeleteCustomColum() {
   const [openModal, setOpenModal] = useState(false);
@@ -10,7 +11,7 @@ export function useDeleteCustomColum() {
     mutate: deletContractMutate,
     isPending,
     isSuccess,
-  } = useContractDelete();
+  } = useDeleteMutation(propsDeleteContract);
 
   const handleDelete = (row: Contract) => {
     setOpenModal(true);

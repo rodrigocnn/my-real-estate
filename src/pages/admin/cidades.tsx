@@ -7,7 +7,9 @@ import { TextInput } from "flowbite-react";
 import { useCreateCity } from "@/modules/cidades/hooks/useCreateCity";
 import { CustomModal } from "@/components/Modal";
 import LayoutAdmin from "@/components/LayoutAdmin";
-import { useCitiesFindAll } from "@/modules/cidades/hooks/useCityQuery";
+import { useFindAllQuery } from "@/hooks/useFindAllQuery";
+import { citiesFindAll } from "@/modules/cidades/api/cityApi";
+import { Cidade } from "@/modules/cidades/interfaces";
 
 const columns = [
   {
@@ -17,7 +19,13 @@ const columns = [
 ];
 
 export default function Cidades() {
-  const { cities } = useCitiesFindAll();
+  const props = {
+    queryKey: "get-cities",
+    queryFn: citiesFindAll,
+  };
+
+  const { data: cities } = useFindAllQuery<Cidade>(props);
+
   const {
     openModal,
     setOpenModal,

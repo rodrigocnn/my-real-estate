@@ -3,8 +3,11 @@ import { useRouter } from "next/router";
 
 import { DeleteCustomColumn } from "@/modules/clients/component/deleteCustomColumn";
 import { EditCustomColumn } from "@/modules/clients/component/editCustomColumn";
-import { useClientsFindAll } from "@/modules/clients/hooks/useClientQuery";
+
 import LayoutAdmin from "@/components/LayoutAdmin";
+import { useFindAllQuery } from "@/hooks/useFindAllQuery";
+import { clientsFindAll } from "@/modules/clients/api";
+import { Client } from "@/modules/clients/interfaces";
 
 const columns = [
   {
@@ -24,12 +27,17 @@ const columns = [
 ];
 
 export default function Clientes() {
-  const { clients, isLoadingClients } = useClientsFindAll();
+  const props = {
+    queryKey: "get-cities",
+    queryFn: clientsFindAll,
+  };
+
+  const { data: clients } = useFindAllQuery<Client>(props);
+
   const router = useRouter();
 
-  console.log("clientes", clients);
-
   function handleClick(event: React.MouseEvent<HTMLButtonElement>) {
+    event.preventDefault();
     router.push("/admin/clientes/cadastrar");
   }
 

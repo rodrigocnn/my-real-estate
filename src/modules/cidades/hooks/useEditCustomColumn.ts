@@ -1,12 +1,24 @@
 import { useState } from "react";
 
 import { Cidade } from "../interfaces";
-import { useCityUpdate } from "./useCityMutation";
+import { useUpdateMutation } from "@/hooks/useUpdateMutation";
+import { cityUpdate } from "../api/cityApi";
 
 export function useEditCustomColum() {
+  const props = {
+    queryKey: "get-cities",
+    onSuccessMsg: "Cidade criada com sucesso",
+    mutationFn: (city: Cidade) => cityUpdate(city),
+  };
+
+  const {
+    mutate: updateCityMutate,
+    isPending,
+    isSuccess,
+  } = useUpdateMutation(props);
+
   const [openModal, setOpenModal] = useState(false);
   const [city, setCity] = useState<Cidade | undefined>();
-  const { mutate: updateCityMutate, isPending, isSuccess } = useCityUpdate();
 
   const handleEdit = (row: Cidade) => {
     setOpenModal(true);

@@ -1,43 +1,47 @@
-import { useEffect, useState } from "react";
-import { Contract } from "../interfaces";
-import { useContractCreate, useContractUpdate } from "./useContractMutation";
-import { useClientsFindAll } from "@/modules/clients/hooks/useClientQuery";
-import { usePropertiesFindAll } from "@/modules/imoveis/hooks/usePropertyQuery";
+import { useState } from "react";
+import { Contract, DateFormContract } from "../interfaces";
+
+import { useCreateMutation } from "@/hooks/useCreateMutation";
+import { useUpdateMutation } from "@/hooks/useUpdateMutation";
+import {
+  INITIAL_FORM_CONTRACT,
+  propsCreateContract,
+  propsUpdateContract,
+} from "../constants";
+import { useFindAllQuery } from "@/hooks/useFindAllQuery";
+
+import { Property } from "@/modules/imoveis/interfaces";
+import { propsFindAllClients } from "@/modules/clients/constants";
+import { Client } from "@/modules/clients/interfaces";
+import { propsFindAllProperties } from "@/modules/imoveis/constants";
+import { mapContractFormData } from "../mapper";
 
 export const useFormContract = (
   initialData?: Contract,
   edit: boolean = false
 ) => {
-  const [form, setForm] = useState<Contract>({
-    clientId: "",
-    propertyId: "",
-    startDate: "",
-    endDate: "",
-    monthlyRent: 0,
-    depositAmount: 0,
-    status: "",
+  const [form, setForm] = useState<Contract>(INITIAL_FORM_CONTRACT);
+  const [dateFormContract, setDateFormContract] = useState<DateFormContract>({
+    startDate: null,
+    endDate: null,
   });
 
-  const { clients } = useClientsFindAll();
-  const { properties } = usePropertiesFindAll();
+  const { data: clients } = useFindAllQuery<Client>(propsFindAllClients);
+  const { data: properties } = useFindAllQuery<Property>(
+    propsFindAllProperties
+  );
 
   const {
     mutate: createContractMutate,
     isPending,
     status,
-  } = useContractCreate();
+  } = useCreateMutation<Contract>(propsCreateContract);
 
   const {
     mutate: updateContractMutate,
     isPending: isPendingUpdate,
     status: statusUpdate,
-  } = useContractUpdate();
-
-  // useEffect(() => {
-  //   if (initialData) {
-  //     setForm(initialData);
-  //   }
-  // }, [initialData]);
+  } = useUpdateMutation<Contract>(propsUpdateContract);
 
   const handleChange = (
     event: React.ChangeEvent<
@@ -46,26 +50,9 @@ export const useFormContract = (
   ) => {
     const { name, value } = event.target;
 
-    const numericFields = [
-      "bedrooms",
-      "bathrooms",
-      "suites",
-      "price",
-      "latitude",
-      "longitude",
-    ];
-    const newValue = numericFields.includes(name) ? Number(value) : value;
-
     setForm((prevForm) => ({
       ...prevForm,
-      [name]: newValue,
-    }));
-  };
-
-  const handleLocationChange = (latitude: number, longitude: number) => {
-    setForm((prevForm) => ({
-      ...prevForm,
-      location: { latitude, longitude },
+      [name]: value,
     }));
   };
 
@@ -76,9 +63,7 @@ export const useFormContract = (
       if (edit) {
         updateContractMutate(form);
       } else {
-        const formMapped = { ...form };
-        formMapped.monthlyRent = Number(formMapped.monthlyRent);
-        formMapped.depositAmount = Number(formMapped.depositAmount);
+        const formMapped = mapContractFormData(form, dateFormContract);
         createContractMutate(formMapped);
       }
     } catch (error) {
@@ -86,23 +71,28 @@ export const useFormContract = (
     }
   };
 
+  const handleChangeCurrency = (name: string, value: number | undefined) => {
+    setForm((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
+  const handleDateChange = (name: string, value: Date | null) => {
+    setDateFormContract((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
   const resetForm = () => {
-    setForm({
-      clientId: "",
-      propertyId: "",
-      startDate: "",
-      endDate: "",
-      monthlyRent: 0,
-      depositAmount: 0,
-      status: "",
-    });
+    setForm(INITIAL_FORM_CONTRACT);
   };
 
   return {
     form,
     setForm,
     handleChange,
-    handleLocationChange,
     handleSubmit,
     resetForm,
     isPendingUpdate,
@@ -111,5 +101,8 @@ export const useFormContract = (
     status,
     clients,
     properties,
+    handleDateChange,
+    dateFormContract,
+    handleChangeCurrency,
   };
 };

@@ -1,23 +1,19 @@
-import { DataGrid } from "@/components/admin/Datagrid";
-
-import { EditCustomColumn } from "@/modules/cidades/component/editCustomColumn";
-
-import { DeleteCustomColumn } from "@/modules/neighborhoods/components/deleteCustomColumn";
-import { useNeighborhoodFindAll } from "@/modules/neighborhoods/hooks/useNeighborhoodQuery";
-import { useCreateNeighborhoodAction } from "@/modules/neighborhoods/hooks/useCreateNeighborhoodAction";
-import LayoutAdmin from "@/components/LayoutAdmin";
-import { CustomModal } from "@/components/Modal";
 import { Select, TextInput } from "flowbite-react";
 
-const columns = [
-  {
-    headerName: "Bairros",
-    field: "name",
-  },
-];
+import { DataGrid } from "@/components/admin/Datagrid";
+import { EditCustomColumn } from "@/modules/cidades/component/editCustomColumn";
+import { DeleteCustomColumn } from "@/modules/neighborhoods/components/deleteCustomColumn";
+import { useCreateNeighborhood } from "@/modules/neighborhoods/hooks/useCreateNeighborhood";
+import { CustomModal } from "@/components/Modal";
+import { useFindAllQuery } from "@/hooks/useFindAllQuery";
+import { propsFindAllNeighborhood } from "@/modules/neighborhoods/constants";
+import { Neighborhood } from "@/modules/neighborhoods/interfaces";
+import LayoutAdmin from "@/components/LayoutAdmin";
 
 export default function Bairros() {
-  const { neighborhoods } = useNeighborhoodFindAll();
+  const { data: neighborhoods } = useFindAllQuery<Neighborhood>(
+    propsFindAllNeighborhood
+  );
 
   const {
     handleClick,
@@ -26,7 +22,7 @@ export default function Bairros() {
     createtNeighborhood,
     neighborhood,
     handleChange,
-  } = useCreateNeighborhoodAction();
+  } = useCreateNeighborhood();
 
   return (
     <LayoutAdmin>
@@ -61,7 +57,12 @@ export default function Bairros() {
         <div className="overflow-x-auto">
           <DataGrid
             rows={neighborhoods}
-            columns={columns}
+            columns={[
+              {
+                headerName: "Bairros",
+                field: "name",
+              },
+            ]}
             addAction={{
               label: "Cadastrar Bairro",
               onClick: handleClick,

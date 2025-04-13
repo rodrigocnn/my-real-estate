@@ -1,6 +1,6 @@
-import { Button, Label, Select, TextInput, Textarea } from "flowbite-react";
+import { Button, Datepicker, Label, Select, TextInput } from "flowbite-react";
 import { useFormContract } from "../hooks/useFormContract";
-import { useClientsFindAll } from "@/modules/clients/hooks/useClientQuery";
+import { CurrencyInput } from "@/components/admin/InputCurrency";
 
 interface FormContractProps {
   edit?: boolean;
@@ -10,8 +10,16 @@ interface FormContractProps {
 export function FormContract(props: FormContractProps) {
   const initialData = props.initialData || [];
 
-  const { form, handleChange, handleSubmit, clients, properties } =
-    useFormContract(initialData, props.edit);
+  const {
+    form,
+    handleChange,
+    handleSubmit,
+    clients,
+    properties,
+    dateFormContract,
+    handleChangeCurrency,
+    handleDateChange,
+  } = useFormContract(initialData, props.edit);
 
   return (
     <div className="bg-white p-4 rounded">
@@ -52,50 +60,49 @@ export function FormContract(props: FormContractProps) {
           <div className="flex gap-4">
             <div className="w-full mb-4">
               <Label htmlFor="dataInicio" value="Data Início" />
-              <TextInput
-                onChange={handleChange}
+
+              <Datepicker
+                language="pt-BR"
+                labelTodayButton="Hoje"
+                labelClearButton="Limpar"
                 name="startDate"
-                id="dataInicio"
-                value={form.startDate}
-                required
+                onChange={(date) => handleDateChange("startDate", date)}
+                value={dateFormContract?.startDate}
               />
             </div>
 
             <div className="w-full mb-4">
               <Label htmlFor="dataFim" value="Data Fim" />
-              <TextInput
-                onChange={handleChange}
+              <Datepicker
+                language="pt-BR"
+                labelTodayButton="Hoje"
+                labelClearButton="Limpar"
                 name="endDate"
-                id="dataFim"
-                value={form.endDate}
-                required
+                onChange={(date) => handleDateChange("endDate", date)}
+                value={dateFormContract?.endDate}
               />
             </div>
           </div>
 
           <div className="flex gap-4 mb-4">
             <div className="w-full">
-              <Label htmlFor="deposito" value="Depósito" />
-              <TextInput
-                type="number"
-                step="any"
-                onChange={handleChange}
+              <CurrencyInput
                 name="depositAmount"
                 id="deposito"
-                value={form.depositAmount?.toString()}
+                label="Depósito"
+                value={form.depositAmount}
+                onChange={handleChangeCurrency}
                 required
               />
             </div>
 
             <div className="w-full">
-              <Label htmlFor="valor" value="Valor Pago" />
-              <TextInput
-                type="number"
-                step="any"
-                onChange={handleChange}
+              <CurrencyInput
                 name="monthlyRent"
                 id="valor"
-                value={form.monthlyRent?.toString()}
+                label="Valor Pago"
+                value={form.monthlyRent}
+                onChange={handleChangeCurrency}
                 required
               />
             </div>
@@ -106,12 +113,9 @@ export function FormContract(props: FormContractProps) {
             <TextInput
               disabled
               type="text"
-              onChange={handleChange}
               name="status"
               id="status"
-              value={"active"}
               placeholder="Ativo"
-              required
             />
           </div>
 

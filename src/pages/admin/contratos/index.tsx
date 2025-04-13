@@ -5,35 +5,18 @@ import { DeleteCustomColumn } from "@/modules/imoveis/components/deleteCustomCol
 import { EditCustomColumn } from "@/modules/imoveis/components/editCustomColumn";
 
 import LayoutAdmin from "@/components/LayoutAdmin";
-import { useContractFindAll } from "@/modules/contracts/hooks/useContractQuery";
-
-const columns = [
-  {
-    headerName: "Cliente",
-    field: "clientName",
-  },
-
-  {
-    headerName: "Imóvel",
-    field: "propertyTitle",
-  },
-
-  {
-    headerName: "Data Início",
-    field: "startDate",
-  },
-
-  {
-    headerName: "Data Fim",
-    field: "endDate",
-  },
-];
+import { useFindAllQuery } from "@/hooks/useFindAllQuery";
+import { Contract } from "@/modules/contracts/interfaces";
+import { propsFindAllContract } from "@/modules/contracts/constants";
+import { columnsContract } from "@/modules/contracts/constants/columns";
 
 export default function Imoveis() {
-  const { properties } = useContractFindAll();
+  const { data: contracts } = useFindAllQuery<Contract>(propsFindAllContract);
+
   const router = useRouter();
 
   function handleClick(event: React.MouseEvent<HTMLButtonElement>) {
+    event.preventDefault();
     router.push("/admin/contratos/cadastrar");
   }
 
@@ -42,8 +25,8 @@ export default function Imoveis() {
       <div className="bg-white p-4 rounded h-screen ">
         <div className="overflow-x-auto">
           <DataGrid
-            rows={properties}
-            columns={columns}
+            rows={contracts}
+            columns={columnsContract}
             addAction={{
               label: "Cadastrar Contrato",
               onClick: handleClick,

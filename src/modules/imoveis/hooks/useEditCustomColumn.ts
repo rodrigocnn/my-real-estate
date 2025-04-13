@@ -1,8 +1,9 @@
 import { useState } from "react";
 
 import { Property } from "../interfaces";
-import { usePropertyUpdate } from "./usePropertyMutation";
 import { useRouter } from "next/router";
+import { useUpdateMutation } from "@/hooks/useUpdateMutation";
+import { propsUpdateProperty } from "../constants";
 
 export function useEditCustomColum() {
   const router = useRouter();
@@ -11,7 +12,7 @@ export function useEditCustomColum() {
     mutate: updatePropertyMutate,
     isPending,
     isSuccess,
-  } = usePropertyUpdate();
+  } = useUpdateMutation(propsUpdateProperty);
 
   const handleEdit = (row: Property) => {
     router.push(`/admin/imoveis/editar/${row.id}`);

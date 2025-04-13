@@ -1,12 +1,24 @@
 import { useState } from "react";
 
 import { Client } from "../interfaces";
-import { useClientUpdate } from "./useClientMutation";
+import { useUpdateMutation } from "@/hooks/useUpdateMutation";
+import { clientUpdate } from "../api";
 
 export function useEditCustomColum() {
+  const props = {
+    queryKey: "get-clients",
+    onSuccessMsg: "Cliente atualizado com sucesso",
+    mutationFn: (client: Client) => clientUpdate(client),
+  };
+
+  const {
+    mutate: updateCityMutate,
+    isPending,
+    isSuccess,
+  } = useUpdateMutation<Client>(props);
+
   const [openModal, setOpenModal] = useState(false);
   const [client, setClient] = useState<Client | undefined>();
-  const { mutate: updateCityMutate, isPending, isSuccess } = useClientUpdate();
 
   const handleEdit = (row: Client) => {
     setOpenModal(true);

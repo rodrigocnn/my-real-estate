@@ -2,7 +2,7 @@ import { FaEdit } from "react-icons/fa";
 
 import { CustomModal } from "@/components/Modal";
 import { TextInput } from "flowbite-react";
-import { useNeighborhoodEditAction } from "../hooks/useNeighborhoodEditAction";
+import { useNeighborhoodEdit } from "../hooks/useNeighborhoodEdit";
 
 export function EditCustomColumn(row: any) {
   const {
@@ -12,7 +12,7 @@ export function EditCustomColumn(row: any) {
     setOpenModal,
     updateNeighborhood,
     neighborhood,
-  } = useNeighborhoodEditAction();
+  } = useNeighborhoodEdit();
 
   return (
     <>

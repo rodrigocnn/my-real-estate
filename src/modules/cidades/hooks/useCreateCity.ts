@@ -1,9 +1,17 @@
 import { MouseEventHandler, useState } from "react";
 import { Cidade } from "../interfaces";
-import { useCityCreate } from "./useCityMutation";
+import { useCreateMutation } from "@/hooks/useCreateMutation";
+import { cityCreate } from "../api/cityApi";
 
 export function useCreateCity() {
-  const { mutate: createCityMutate, isPending, status } = useCityCreate();
+  const props = {
+    queryKey: "get-cities",
+    onSuccessMsg: "Cidade criada com sucesso",
+    mutationFn: (city: Cidade) => cityCreate(city),
+  };
+
+  const { mutate, isPending, status } = useCreateMutation<Cidade>(props);
+
   const [openModal, setOpenModal] = useState(false);
   const [city, setCity] = useState<Cidade | undefined>();
 
@@ -20,7 +28,7 @@ export function useCreateCity() {
   };
 
   const createCity = () => {
-    createCityMutate(city as Cidade);
+    mutate(city as Cidade);
     if (status === "idle" || status === "success") {
       setCity(undefined);
     }

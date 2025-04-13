@@ -1,11 +1,11 @@
 import { PiTrash } from "react-icons/pi";
 
 import { CustomModal } from "@/components/Modal";
-import { useNeighborhoodDeleteAction } from "../hooks/useNeighborhoodDeleteAction";
+import { useNeighborhoodDelete } from "../hooks/useNeighborhoodDelete";
 
 export function DeleteCustomColumn(row: any) {
   const { handleDelete, openModal, setOpenModal, deleteNeighborhood } =
-    useNeighborhoodDeleteAction();
+    useNeighborhoodDelete();
 
   return (
     <>

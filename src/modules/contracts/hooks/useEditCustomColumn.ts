@@ -1,8 +1,9 @@
 import { useState } from "react";
 
 import { Contract } from "../interfaces";
-import { usePropertyUpdate } from "./useContractMutation";
 import { useRouter } from "next/router";
+import { useUpdateMutation } from "@/hooks/useUpdateMutation";
+import { propsUpdateContract } from "../constants";
 
 export function useEditCustomColum() {
   const router = useRouter();
@@ -11,7 +12,7 @@ export function useEditCustomColum() {
     mutate: updatePropertyMutate,
     isPending,
     isSuccess,
-  } = usePropertyUpdate();
+  } = useUpdateMutation(propsUpdateContract);
 
   const handleEdit = (row: Contract) => {
     router.push(`/admin/contratos/editar/${row.id}`);
@@ -30,14 +31,14 @@ export function useEditCustomColum() {
     });
   };
 
-  const updateCity = () => {
+  const updateContract = () => {
     updatePropertyMutate(contract as Contract);
   };
 
   return {
     handleEdit,
     handleChange,
-    updateCity,
+    updateContract,
     isPending,
     isSuccess,
     contract,
