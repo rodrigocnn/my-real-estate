@@ -1,18 +1,26 @@
-import { Button, Label, Select, TextInput, Textarea } from "flowbite-react";
+import { Button, Label, TextInput } from "flowbite-react";
 import { useFormClient } from "../hooks/useFormClient";
+import { useEffect } from "react";
+import { Client } from "../interfaces";
 
 interface FormClientProps {
   edit?: boolean;
-  initialData?: any;
+  initialData?: Client;
 }
 
 export function FormClient(props: FormClientProps) {
-  const initialData = props.initialData || [];
+  const initialData = props.initialData;
 
-  const { form, handleChange, handleSubmit } = useFormClient(
+  const { form, handleChange, handleSubmit, setForm } = useFormClient(
     initialData,
     props.edit
   );
+
+  useEffect(() => {
+    if (initialData && Object.keys(initialData).length > 0) {
+      setForm(initialData);
+    }
+  }, [initialData]);
 
   return (
     <div className="bg-white p-4 rounded">

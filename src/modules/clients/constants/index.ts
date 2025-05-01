@@ -1,4 +1,9 @@
-import { clientCreate, clientsFindAll, clientUpdate } from "../api";
+import {
+  clientCreate,
+  clientFindOne,
+  clientsFindAll,
+  clientUpdate,
+} from "../api";
 import { Client } from "../interfaces";
 
 export const INITIAL_STATE_FORM_CLIENT = {
@@ -11,6 +16,12 @@ export const INITIAL_STATE_FORM_CLIENT = {
 export const propsFindAllClients = {
   queryKey: "get-clients",
   queryFn: clientsFindAll,
+};
+
+export const propsFindOneClient = {
+  queryKey: "get-client",
+  queryFn: (id: string) => clientFindOne(id),
+  enabled: true,
 };
 
 export const propsCreateClient = {

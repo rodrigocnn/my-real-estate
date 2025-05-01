@@ -8,6 +8,7 @@ import {
   propsUpdateClient,
 } from "../constants";
 import { useUpdateMutation } from "@/hooks/useUpdateMutation";
+import { formatCPF, formatPhone } from "@/utils";
 
 export const useFormClient = (initialData?: Client, edit: boolean = false) => {
   const [form, setForm] = useState<Client>(INITIAL_STATE_FORM_CLIENT);
@@ -37,9 +38,17 @@ export const useFormClient = (initialData?: Client, edit: boolean = false) => {
   ) => {
     const { name, value } = event.target;
 
+    let formattedValue = value;
+
+    if (name === "cpf") {
+      formattedValue = formatCPF(value);
+    } else if (name === "phone") {
+      formattedValue = formatPhone(value);
+    }
+
     setForm((prevForm) => ({
       ...prevForm,
-      [name]: value,
+      [name]: formattedValue,
     }));
   };
 

@@ -3,25 +3,23 @@ import { useState } from "react";
 import { Client } from "../interfaces";
 import { useUpdateMutation } from "@/hooks/useUpdateMutation";
 import { clientUpdate } from "../api";
+import { useRouter } from "next/router";
+import { propsUpdateClient } from "../constants";
 
 export function useEditCustomColum() {
-  const props = {
-    queryKey: "get-clients",
-    onSuccessMsg: "Cliente atualizado com sucesso",
-    mutationFn: (client: Client) => clientUpdate(client),
-  };
+  const router = useRouter();
 
   const {
     mutate: updateCityMutate,
     isPending,
     isSuccess,
-  } = useUpdateMutation<Client>(props);
+  } = useUpdateMutation<Client>(propsUpdateClient);
 
   const [openModal, setOpenModal] = useState(false);
   const [client, setClient] = useState<Client | undefined>();
 
   const handleEdit = (row: Client) => {
-    setOpenModal(true);
+    router.push(`/admin/clientes/editar/${row.id}`);
     setClient(row);
   };
 
