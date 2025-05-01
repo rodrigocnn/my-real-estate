@@ -29,8 +29,10 @@ export default function Cidades() {
   const {
     openModal,
     setOpenModal,
+    handleCloseModal,
     createCity,
     city,
+    errors,
     handleChange,
     handleClick,
   } = useCreateCity();
@@ -41,12 +43,11 @@ export default function Cidades() {
         <CustomModal
           title="Cadastrar Cidade"
           show={openModal}
-          onClose={() => setOpenModal(false)}
+          onClose={() => handleCloseModal()}
           primaryAction={{
             label: "Salvar",
             onClick: () => {
               createCity();
-              setOpenModal(false);
             },
           }}
         >
@@ -59,6 +60,7 @@ export default function Cidades() {
             value={city?.name}
             onChange={handleChange}
           />
+          {errors.name && <p className="text-red-500">{errors.name}</p>}{" "}
         </CustomModal>
 
         <div className="overflow-x-auto">

@@ -1,7 +1,7 @@
 import { Select, TextInput } from "flowbite-react";
 
 import { DataGrid } from "@/components/admin/Datagrid";
-import { EditCustomColumn } from "@/modules/cidades/component/editCustomColumn";
+
 import { DeleteCustomColumn } from "@/modules/neighborhoods/components/deleteCustomColumn";
 import { useCreateNeighborhood } from "@/modules/neighborhoods/hooks/useCreateNeighborhood";
 import { CustomModal } from "@/components/Modal";
@@ -9,6 +9,7 @@ import { useFindAllQuery } from "@/hooks/useFindAllQuery";
 import { propsFindAllNeighborhood } from "@/modules/neighborhoods/constants";
 import { Neighborhood } from "@/modules/neighborhoods/interfaces";
 import LayoutAdmin from "@/components/LayoutAdmin";
+import { EditCustomColumn } from "@/modules/neighborhoods/components/editCustomColumn";
 
 export default function Bairros() {
   const { data: neighborhoods } = useFindAllQuery<Neighborhood>(
@@ -19,9 +20,11 @@ export default function Bairros() {
     handleClick,
     setOpenModal,
     openModal,
-    createtNeighborhood,
+    createNeighborhood,
     neighborhood,
     handleChange,
+    errors,
+    handleCloseModal,
   } = useCreateNeighborhood();
 
   return (
@@ -30,12 +33,11 @@ export default function Bairros() {
         <CustomModal
           title="Cadastrar Bairro"
           show={openModal}
-          onClose={() => setOpenModal(false)}
+          onClose={() => handleCloseModal()}
           primaryAction={{
             label: "Salvar",
             onClick: () => {
-              createtNeighborhood();
-              setOpenModal(false);
+              createNeighborhood();
             },
           }}
         >
@@ -48,10 +50,12 @@ export default function Bairros() {
             value={neighborhood?.name}
             onChange={handleChange}
           />
+          {errors.name && <p className="text-red-500">{errors.name}</p>}
           <Select name="cityId" onChange={handleChange} id="cities" required>
             <option value={"-1"}>Selecione Cidade</option>
             <option value={"cm81lz9sb0000whr1992adrln"}>Barreiras</option>
           </Select>
+          {errors.name && <p className="text-red-500">{errors.cityId}</p>}
         </CustomModal>
 
         <div className="overflow-x-auto">

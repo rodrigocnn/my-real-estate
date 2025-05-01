@@ -1,7 +1,14 @@
 import React, { ReactNode } from "react";
 import { Sidebar } from "./Sidebar";
+import { useAuthGuard } from "@/hooks/useAuthGuard";
 
 const LayoutAdmin = ({ children }: { children: ReactNode }) => {
+  const { isChecking } = useAuthGuard();
+
+  if (isChecking) {
+    return <div className="text-white p-6">Verificando autenticação...</div>;
+  }
+
   return (
     <div className="min-h-screen flex">
       {/* Sidebar */}

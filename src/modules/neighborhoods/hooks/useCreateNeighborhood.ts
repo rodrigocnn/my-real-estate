@@ -3,10 +3,11 @@ import { MouseEventHandler, useState } from "react";
 import { Neighborhood } from "../interfaces";
 import { useCreateMutation } from "@/hooks/useCreateMutation";
 import { propsCreateNeighborhood } from "../constants";
+import { neighborhoodSchema } from "../validation";
 
 export function useCreateNeighborhood() {
   const [neighborhood, setNeighborhood] = useState<Neighborhood | undefined>();
-
+  const [errors, setErrors] = useState<Record<string, string>>({});
   const {
     mutate: createNeighborhoodMutate,
     isPending,
@@ -19,6 +20,11 @@ export function useCreateNeighborhood() {
     setOpenModal(true);
   };
 
+  const handleCloseModal = () => {
+    setErrors({});
+    setOpenModal(false);
+  };
+
   const handleChange = (
     event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
@@ -28,10 +34,23 @@ export function useCreateNeighborhood() {
     }));
   };
 
-  const createtNeighborhood = () => {
-    createNeighborhoodMutate(neighborhood as Neighborhood);
-    if (status === "idle" || status === "success") {
-      setNeighborhood(undefined);
+  const createNeighborhood = async () => {
+    try {
+      await neighborhoodSchema.validate(neighborhood, { abortEarly: false });
+      createNeighborhoodMutate(neighborhood as Neighborhood);
+      if (status === "idle" || status === "success") {
+        setNeighborhood(undefined);
+        setErrors({});
+        setOpenModal(false);
+      }
+    } catch (error: any) {
+      if (error.name === "ValidationError") {
+        const validationErrors = error.inner.reduce((acc: any, err: any) => {
+          acc[err.path] = err.message;
+          return acc;
+        }, {});
+        setErrors(validationErrors);
+      }
     }
   };
 
@@ -40,8 +59,10 @@ export function useCreateNeighborhood() {
     setOpenModal,
     handleClick,
     handleChange,
-    createtNeighborhood,
+    createNeighborhood,
+    handleCloseModal,
     isPending,
+    errors,
     neighborhood,
   };
 }

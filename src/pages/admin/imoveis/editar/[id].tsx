@@ -5,11 +5,12 @@ import { useEffect } from "react";
 import { FormProperty } from "@/modules/imoveis/components/form";
 import { usePropertyFindOne } from "@/modules/imoveis/hooks/usePropertyQuery";
 import LayoutAdmin from "@/components/LayoutAdmin";
+import { propsFindOneClient } from "@/modules/clients/constants";
 
 export default function ImoveisEditar() {
   const router = useRouter();
   const { refetch, isLoadingProperty, property, propertyId } =
-    usePropertyFindOne();
+    usePropertyFindOne(propsFindOneClient);
 
   useEffect(() => {
     refetch(router.query.id as string);

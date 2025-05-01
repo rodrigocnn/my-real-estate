@@ -1,25 +1,29 @@
 import axios from "axios";
 
 const instance = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_BASE_URL, // ou sem o NEXT_PUBLIC_ se só for server-side
+  baseURL: process.env.NEXT_PUBLIC_BASE_URL,
   timeout: 5000,
   headers: {
     "Content-Type": "application/json",
   },
 });
 
-// function getToken() {
-//   if (localStorage.getItem('@Auth:TOKEN')) {
-//     const token = localStorage.getItem('@Auth:TOKEN') as string;
-//     return token;
-//   }
-// }
+function getToken() {
+  return localStorage.getItem("token");
+}
 
-// instance.interceptors.request.use(async config => {
-//   const token = getToken();
-//   config.headers.Authorization = `Bearer ${token}`;
-//   return config;
-// });
+instance.interceptors.request.use(
+  (config) => {
+    const token = getToken();
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+    return config;
+  },
+  (error) => {
+    return Promise.reject(error);
+  }
+);
 
 const apis = {
   index: (endpoint: string) => instance.get(endpoint),
