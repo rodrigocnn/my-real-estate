@@ -1,6 +1,7 @@
 import {
   rentalPaymentCreate,
   rentalPaymentFindAll,
+  rentalPaymentFindByContract,
   rentalPaymentFindOne,
   rentalPaymentUpdate,
 } from "../api/rental-pay-api";
@@ -17,6 +18,11 @@ export const INITIAL_STATE_FORM_RENTAL_PAYMENT = {
 export const propsFindAllRentalPayments = {
   queryKey: "get-rental-payments",
   queryFn: rentalPaymentFindAll,
+};
+
+export const propsFindAllRentalPaymentsByContract = {
+  queryKey: "get-rental-payments-by-contracts",
+  queryFn: (id: string) => rentalPaymentFindByContract(id),
 };
 
 export const propsFindOneRentalPayment = {
