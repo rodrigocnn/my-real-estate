@@ -37,6 +37,7 @@ export function useCreateNeighborhood() {
   const createNeighborhood = async () => {
     try {
       await neighborhoodSchema.validate(neighborhood, { abortEarly: false });
+
       createNeighborhoodMutate(neighborhood as Neighborhood);
       if (status === "idle" || status === "success") {
         setNeighborhood(undefined);

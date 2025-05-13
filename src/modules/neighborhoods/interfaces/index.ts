@@ -1,5 +1,5 @@
 export interface Neighborhood {
   id?: string;
   name: string;
-  cityId: string;
+  city_id: number;
 }
