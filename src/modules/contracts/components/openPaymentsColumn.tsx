@@ -2,7 +2,6 @@ import { BsCashStack } from "react-icons/bs";
 
 import { CustomModal } from "@/components/Modal";
 import { useDeleteCustomColum } from "../hooks/useDeleteCustomColumn";
-
 import ShowPayments from "@/modules/rental-payments/component/showPayments";
 
 export function OpenPaymentsColumn(row: any) {
@@ -24,7 +23,7 @@ export function OpenPaymentsColumn(row: any) {
           },
         }}
       >
-        <ShowPayments />
+        <ShowPayments contractId={row.row.id} />
       </CustomModal>
 
       <button
