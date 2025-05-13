@@ -10,7 +10,7 @@ export function DeleteCustomColumn(row: any) {
   return (
     <>
       <CustomModal
-        title="Excluir Cliente"
+        title="Excluir Proprietário"
         show={openModal}
         onClose={() => setOpenModal(false)}
         primaryAction={{
@@ -21,7 +21,7 @@ export function DeleteCustomColumn(row: any) {
           },
         }}
       >
-        <p> Deseja realmente excluir a cliente selecionado?</p>
+        <p> Deseja realmente excluir a proprietário selecionado?</p>
       </CustomModal>
 
       <button
