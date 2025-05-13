@@ -7,10 +7,11 @@ interface CustomModalProps {
   title?: string;
   children: ReactNode;
   primaryAction: {
-    label: string; // texto do botão principal
-    onClick: () => void; // ação executada ao clicar
-    color?: string; // cor do botão principal (opcional)
+    label: string;
+    onClick: () => void;
+    color?: string;
   };
+  size?: string; // <-- agora é opcional
 }
 
 export function CustomModal({
@@ -19,12 +20,13 @@ export function CustomModal({
   title,
   children,
   primaryAction,
+  size = "2xl",
 }: CustomModalProps) {
   return (
-    <Modal dismissible show={show} onClose={onClose}>
+    <Modal size={size} dismissible show={show} onClose={onClose}>
       {title && <Modal.Header>{title}</Modal.Header>}
       <Modal.Body>
-        <div className="space-y-6">{children}</div>
+        <div className="space-y-6 ">{children}</div>
       </Modal.Body>
       <Modal.Footer>
         <Button color="gray" onClick={onClose}>
