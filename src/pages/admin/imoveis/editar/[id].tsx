@@ -1,28 +1,46 @@
 import { Spinner } from "flowbite-react";
 import { useRouter } from "next/router";
-import { useEffect } from "react";
 
 import { FormProperty } from "@/modules/imoveis/components/form";
-import { usePropertyFindOne } from "@/modules/imoveis/hooks/usePropertyQuery";
+import { useFindAllQuery } from "@/hooks/useFindAllQuery";
+import { Owner } from "@/modules/owner/interfaces";
+import { PropertyType } from "@/modules/property-types/interfaces";
+import { propsFindAllOwners } from "@/modules/owner/constants";
+
+import { propsFindAllPropertyTypes } from "@/modules/property-types/constants";
 import LayoutAdmin from "@/components/LayoutAdmin";
-import { propsFindOneClient } from "@/modules/clients/constants";
+import { useFindOneQuery } from "@/hooks/useFindOneQuery";
+import { propsFindOneProperty } from "@/modules/imoveis/constants";
+import { useEffect } from "react";
 
 export default function ImoveisEditar() {
   const router = useRouter();
-  const { refetch, isLoadingProperty, property, propertyId } =
-    usePropertyFindOne(propsFindOneClient);
+  const { data: owners } = useFindAllQuery<Owner>(propsFindAllOwners);
+  const { data: types } = useFindAllQuery<PropertyType>(
+    propsFindAllPropertyTypes
+  );
+  const {
+    data: property,
+    isLoading,
+    fetchById,
+  } = useFindOneQuery(propsFindOneProperty);
 
   useEffect(() => {
-    refetch(router.query.id as string);
-  }, [propertyId, router.query.id]);
+    fetchById(router.query.id as string);
+  }, [router.query.id]);
 
   return (
     <LayoutAdmin>
       <h2 className="text-2xl font-semibold  mb-4">Editar Imóvel</h2>
-      {isLoadingProperty ? (
+      {isLoading ? (
         <Spinner />
       ) : (
-        <FormProperty edit={true} initialData={property} />
+        <FormProperty
+          owners={owners || []}
+          types={types || []}
+          edit={true}
+          initialData={property}
+        />
       )}
     </LayoutAdmin>
   );

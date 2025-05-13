@@ -3,11 +3,11 @@ import { useRouter } from "next/router";
 
 import { DeleteCustomColumn } from "@/modules/imoveis/components/deleteCustomColumn";
 import { EditCustomColumn } from "@/modules/imoveis/components/editCustomColumn";
-import LayoutAdmin from "@/components/LayoutAdmin";
 import { useFindAllQuery } from "@/hooks/useFindAllQuery";
 import { propsFindAllProperties } from "@/modules/imoveis/constants";
 import { Property } from "@/modules/imoveis/interfaces";
 import { columnsProperties } from "@/modules/imoveis/constants/columns";
+import LayoutAdmin from "@/components/LayoutAdmin";
 
 export default function Imoveis() {
   const { data: properties } = useFindAllQuery<Property>(

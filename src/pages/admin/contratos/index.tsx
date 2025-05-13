@@ -2,13 +2,14 @@ import { useMemo } from "react";
 import { DataGrid } from "@/components/admin/Datagrid";
 import { useRouter } from "next/router";
 
-import { DeleteCustomColumn } from "@/modules/imoveis/components/deleteCustomColumn";
-import { EditCustomColumn } from "@/modules/imoveis/components/editCustomColumn";
+import { DeleteCustomColumn } from "@/modules/contracts/components/deleteCustomColumn";
+import { EditCustomColumn } from "@/modules/contracts/components/editCustomColumn";
 import { useFindAllQuery } from "@/hooks/useFindAllQuery";
 import { Contract } from "@/modules/contracts/interfaces";
 import { propsFindAllContract } from "@/modules/contracts/constants";
 import { columnsContract } from "@/modules/contracts/constants/columns";
 
+import { OpenPaymentsColumn } from "@/modules/contracts/components/openPaymentsColumn";
 import LayoutAdmin from "@/components/LayoutAdmin";
 
 export default function Imoveis() {
@@ -29,8 +30,10 @@ export default function Imoveis() {
     return (
       contracts?.map((contract) => ({
         ...contract,
-        startDate: formatDateToPtBR(contract.startDate),
-        endDate: formatDateToPtBR(contract.endDate),
+        clientName: contract.client?.name ?? "",
+        propertyTitle: contract.property?.title ?? "",
+        startDate: formatDateToPtBR(contract.start_date as string),
+        endDate: formatDateToPtBR(contract.end_date as string),
       })) || []
     );
   }, [contracts]);
@@ -47,6 +50,12 @@ export default function Imoveis() {
               onClick: handleClick,
             }}
             columnsFormatters={[
+              {
+                component: OpenPaymentsColumn,
+                label: "Pagamentos",
+                field: "id",
+              },
+
               {
                 component: EditCustomColumn,
                 label: "Editar",

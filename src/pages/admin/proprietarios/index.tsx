@@ -1,34 +1,16 @@
 import { DataGrid } from "@/components/admin/Datagrid";
 import { useRouter } from "next/router";
 
-import { DeleteCustomColumn } from "@/modules/clients/component/deleteCustomColumn";
-import { EditCustomColumn } from "@/modules/clients/component/editCustomColumn";
-
-import LayoutAdmin from "@/components/LayoutAdmin";
+import { DeleteCustomColumn } from "@/modules/owner/component/deleteCustomColumn";
+import { EditCustomColumn } from "@/modules/owner/component/editCustomColumn";
 import { useFindAllQuery } from "@/hooks/useFindAllQuery";
 import { Owner } from "@/modules/owner/interfaces";
 import { propsFindAllOwners } from "@/modules/owner/constants";
-
-const columns = [
-  {
-    headerName: "Nome",
-    field: "name",
-  },
-
-  {
-    headerName: "Email",
-    field: "email",
-  },
-
-  {
-    headerName: "Telefone",
-    field: "phone",
-  },
-];
+import { columnsOwners } from "@/modules/owner/constants/columns";
+import LayoutAdmin from "@/components/LayoutAdmin";
 
 export default function Proprietarios() {
   const { data: owners } = useFindAllQuery<Owner>(propsFindAllOwners);
-
   const router = useRouter();
 
   function handleClick(event: React.MouseEvent<HTMLButtonElement>) {
@@ -42,9 +24,9 @@ export default function Proprietarios() {
         <div className="overflow-x-auto">
           <DataGrid
             rows={owners}
-            columns={columns}
+            columns={columnsOwners}
             addAction={{
-              label: "Cadastrar Cliente",
+              label: "Cadastrar Proprietário",
               onClick: handleClick,
             }}
             columnsFormatters={[

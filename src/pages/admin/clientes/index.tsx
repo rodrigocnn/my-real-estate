@@ -3,36 +3,14 @@ import { useRouter } from "next/router";
 
 import { DeleteCustomColumn } from "@/modules/clients/component/deleteCustomColumn";
 import { EditCustomColumn } from "@/modules/clients/component/editCustomColumn";
-
-import LayoutAdmin from "@/components/LayoutAdmin";
 import { useFindAllQuery } from "@/hooks/useFindAllQuery";
-import { clientsFindAll } from "@/modules/clients/api";
 import { Client } from "@/modules/clients/interfaces";
-
-const columns = [
-  {
-    headerName: "Nome",
-    field: "name",
-  },
-
-  {
-    headerName: "Email",
-    field: "email",
-  },
-
-  {
-    headerName: "Telefone",
-    field: "phone",
-  },
-];
+import { propsFindAllClients } from "@/modules/clients/constants";
+import { columnsClients } from "@/modules/clients/constants/columns";
+import LayoutAdmin from "@/components/LayoutAdmin";
 
 export default function Clientes() {
-  const props = {
-    queryKey: "get-cities",
-    queryFn: clientsFindAll,
-  };
-
-  const { data: clients } = useFindAllQuery<Client>(props);
+  const { data: clients } = useFindAllQuery<Client>(propsFindAllClients);
 
   const router = useRouter();
 
@@ -47,7 +25,7 @@ export default function Clientes() {
         <div className="overflow-x-auto">
           <DataGrid
             rows={clients}
-            columns={columns}
+            columns={columnsClients}
             addAction={{
               label: "Cadastrar Cliente",
               onClick: handleClick,

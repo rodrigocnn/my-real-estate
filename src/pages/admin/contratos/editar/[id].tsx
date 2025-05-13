@@ -2,26 +2,28 @@ import { Spinner } from "flowbite-react";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 
-import { FormProperty } from "@/modules/imoveis/components/form";
-import { usePropertyFindOne } from "@/modules/imoveis/hooks/usePropertyQuery";
+import { FormContract } from "@/modules/contracts/components/form";
+import { useFindOneQuery } from "@/hooks/useFindOneQuery";
+import { Contract } from "@/modules/contracts/interfaces";
+import { propsFindOneContract } from "@/modules/contracts/constants";
 import LayoutAdmin from "@/components/LayoutAdmin";
 
 export default function ImoveisEditar() {
   const router = useRouter();
-  const { refetch, isLoadingProperty, property, propertyId } =
-    usePropertyFindOne();
+  const { data, fetchById, isLoading } =
+    useFindOneQuery<Contract>(propsFindOneContract);
 
   useEffect(() => {
-    refetch(router.query.id as string);
-  }, [propertyId, router.query.id]);
+    fetchById(router.query.id as string);
+  }, [router.query.id]);
 
   return (
     <LayoutAdmin>
       <h2 className="text-2xl font-semibold  mb-4">Editar Imóvel</h2>
-      {isLoadingProperty ? (
+      {isLoading ? (
         <Spinner />
       ) : (
-        <FormProperty edit={true} initialData={property} />
+        <FormContract edit={true} initialData={data} />
       )}
     </LayoutAdmin>
   );

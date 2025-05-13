@@ -51,9 +51,9 @@ export default function Bairros() {
             onChange={handleChange}
           />
           {errors.name && <p className="text-red-500">{errors.name}</p>}
-          <Select name="cityId" onChange={handleChange} id="cities" required>
+          <Select name="city_id" onChange={handleChange} id="cities" required>
             <option value={"-1"}>Selecione Cidade</option>
-            <option value={"cm81lz9sb0000whr1992adrln"}>Barreiras</option>
+            <option value={1}>Barreiras</option>
           </Select>
           {errors.name && <p className="text-red-500">{errors.cityId}</p>}
         </CustomModal>
