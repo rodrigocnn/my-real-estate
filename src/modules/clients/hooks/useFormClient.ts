@@ -9,9 +9,11 @@ import {
 } from "../constants";
 import { useUpdateMutation } from "@/hooks/useUpdateMutation";
 import { formatCPF, formatPhone } from "@/utils";
+import { useRouter } from "next/router";
 
 export const useFormClient = (initialData?: Client, edit: boolean = false) => {
   const [form, setForm] = useState<Client>(INITIAL_STATE_FORM_CLIENT);
+  const router = useRouter();
 
   const {
     mutate: createClientMutate,
@@ -24,12 +26,6 @@ export const useFormClient = (initialData?: Client, edit: boolean = false) => {
     isPending: isPendingUpdate,
     status: statusUpdate,
   } = useUpdateMutation(propsUpdateClient);
-
-  // useEffect(() => {
-  //   if (initialData) {
-  //     setForm(initialData);
-  //   }
-  // }, [initialData]);
 
   const handleChange = (
     event: React.ChangeEvent<
@@ -67,6 +63,10 @@ export const useFormClient = (initialData?: Client, edit: boolean = false) => {
         updateClientMutate(form);
       } else {
         createClientMutate(form);
+      }
+
+      if (status === "idle" || status === "success") {
+        router.push("/admin/clientes");
       }
     } catch (error) {
       console.error("Erro ao enviar:", error);

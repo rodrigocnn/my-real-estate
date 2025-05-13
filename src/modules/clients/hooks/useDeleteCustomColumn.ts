@@ -1,22 +1,18 @@
 import { useState } from "react";
 
 import { Client } from "../interfaces";
-import { useClientDelete } from "./useClientMutation";
+
 import { useDeleteMutation } from "@/hooks/useDeleteMutate";
 import { clientDelete } from "../api";
 
 export function useDeleteCustomColum() {
   const props = {
-    queryKey: "get-cities",
-    onSuccessMsg: "Cidade excluída com sucesso",
+    queryKey: "get-clients",
+    onSuccessMsg: "Cliente excluída com sucesso",
     mutationFn: (id: string) => clientDelete(id),
   };
 
-  const {
-    mutate: deleteCityMutate,
-    isPending,
-    isSuccess,
-  } = useDeleteMutation(props);
+  const { mutate: deleteCityMutate, isPending } = useDeleteMutation(props);
 
   const [openModal, setOpenModal] = useState(false);
   const [client, setClient] = useState<Client | undefined>();
