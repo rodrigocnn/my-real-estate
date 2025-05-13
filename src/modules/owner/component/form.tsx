@@ -1,5 +1,5 @@
 import { Button, Label, TextInput } from "flowbite-react";
-import { useFormClient } from "../hooks/useFormClient";
+import { useFormOwner } from "../hooks/useFormOwner";
 import { useEffect } from "react";
 import { Owner } from "../interfaces";
 
@@ -11,7 +11,7 @@ interface FormOwnerProps {
 export function FormOwner(props: FormOwnerProps) {
   const initialData = props.initialData;
 
-  const { form, handleChange, handleSubmit, setForm } = useFormClient(
+  const { form, handleChange, handleSubmit, setForm } = useFormOwner(
     initialData,
     props.edit
   );
@@ -80,7 +80,7 @@ export function FormOwner(props: FormOwnerProps) {
 
           <div className="col-span-2">
             <Button type="submit">
-              {props.edit ? "Atualizar" : "Cadastrar"} Cliente
+              {props.edit ? "Atualizar" : "Cadastrar"} Proprietário
             </Button>
           </div>
         </form>
