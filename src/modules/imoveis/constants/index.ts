@@ -2,29 +2,38 @@ import {
   propertiesFindAll,
   propertyCreate,
   propertyDelete,
+  propertyFindOne,
   propertyUpdate,
 } from "../api/propertyApi";
 import { Property } from "../interfaces";
 
 export const INITIAL_STATE_FORM_PROPERTY = {
   title: "",
-  negotiationType: "SALE" as string,
+  negotiation_type: "",
   description: "",
   bedrooms: 0,
   bathrooms: 0,
   suites: 0,
   price: 0,
   address: "",
-  latitude: null,
-  longitude: null,
+  latitude: 0,
+  longitude: 0,
   neighborhood: "",
-  cityId: "",
+  city_id: -1,
+  property_type_id: -1,
+  owner_id: -1,
   state: "",
 };
 
 export const propsFindAllProperties = {
   queryKey: "get-properties",
   queryFn: propertiesFindAll,
+};
+
+export const propsFindOneProperty = {
+  queryKey: "get-property",
+  queryFn: (id: string) => propertyFindOne(id),
+  enabled: true,
 };
 
 export const propsCreateProperty = {

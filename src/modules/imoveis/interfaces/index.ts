@@ -1,18 +1,20 @@
 export interface Property {
-  id?: string;
+  id?: number;
   title: string;
-  negotiationType: string;
+  negotiation_type: string; // você pode tipar melhor se quiser
   description: string;
   bedrooms: number;
   bathrooms: number;
   suites: number;
   price: number;
-  address: string;
-  latitude: number | null;
-  longitude: number | null;
+  latitude: number;
+  longitude: number;
   neighborhood: string;
-  cityId: string;
+  address: string;
   state: string;
-  createdAt?: string;
-  updatedAt?: string;
+  city_id: number;
+  property_type_id: number;
+  owner_id: number;
+  created_at?: string;
+  updated_at?: string;
 }

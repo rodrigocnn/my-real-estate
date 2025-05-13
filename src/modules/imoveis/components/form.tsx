@@ -1,18 +1,27 @@
 import { Button, Label, Select, TextInput, Textarea } from "flowbite-react";
 import { useFormProperty } from "../hooks/useFormProperty";
+import { Owner } from "@/modules/owner/interfaces";
+import { PropertyType } from "@/modules/property-types/interfaces";
+import { useEffect } from "react";
+import { CurrencyInput } from "@/components/admin/InputCurrency";
 
 interface FormPropertyProps {
   edit?: boolean;
   initialData?: any;
+  owners: Owner[] | [];
+  types: PropertyType[] | [];
 }
 
 export function FormProperty(props: FormPropertyProps) {
-  const initialData = props.initialData || [];
+  const { initialData, owners, types, edit } = props;
+  const { form, handleChange, handleSubmit, setForm, handleChangeCurrency } =
+    useFormProperty(edit);
 
-  const { form, handleChange, handleSubmit } = useFormProperty(
-    initialData,
-    props.edit
-  );
+  useEffect(() => {
+    if (initialData && edit) {
+      setForm(initialData);
+    }
+  }, [initialData]);
 
   return (
     <div className="bg-white p-4 rounded">
@@ -20,6 +29,59 @@ export function FormProperty(props: FormPropertyProps) {
         <form onSubmit={handleSubmit}>
           <div className="w-full bg-gray-200 p-2 mb-4">
             <h2>Geral</h2>
+          </div>
+
+          <div className="flex gap-4">
+            <div className="w-full mb-4">
+              <Label htmlFor="tipoImovel" value="Tipo de Imóvel" />
+              <Select
+                onChange={handleChange}
+                name="property_type_id"
+                id="tipoImovel"
+                value={form.property_type_id}
+                required
+              >
+                <option value="">Selecione</option>
+                {types.map((item) => (
+                  <option key={item.id} value={item.id}>
+                    {item.name}
+                  </option>
+                ))}
+              </Select>
+            </div>
+
+            <div className="w-full mb-4">
+              <Label htmlFor="proprietario" value="Proprietário" />
+              <Select
+                onChange={handleChange}
+                name="owner_id"
+                id="proprietario"
+                value={form.owner_id}
+                required
+              >
+                <option value="">Selecione</option>
+                {owners.map((item) => (
+                  <option key={item.id} value={item.id}>
+                    {item.name}
+                  </option>
+                ))}
+              </Select>
+            </div>
+
+            <div className="w-full mb-4">
+              <Label htmlFor="tipoNegociacao" value="Tipo de Negociação" />
+              <Select
+                onChange={handleChange}
+                name="negotiation_type"
+                id="tipoNegociacao"
+                value={form.negotiation_type}
+                required
+              >
+                <option value="">Selecione</option>
+                <option value="aluguel">Alugar</option>
+                <option value="venda">Venda</option>
+              </Select>
+            </div>
           </div>
 
           <div className="flex gap-4">
@@ -32,21 +94,6 @@ export function FormProperty(props: FormPropertyProps) {
                 value={form.title}
                 required
               />
-            </div>
-
-            <div className="w-full mb-4">
-              <Label htmlFor="tipoNegociacao" value="Tipo de Negociação" />
-              <Select
-                onChange={handleChange}
-                name="negotiationType"
-                id="tipoNegociacao"
-                value={form.negotiationType}
-                required
-              >
-                <option value="">Selecione</option>
-                <option value="RENT">Alugar</option>
-                <option value="SALE">Venda</option>
-              </Select>
             </div>
           </div>
 
@@ -64,12 +111,12 @@ export function FormProperty(props: FormPropertyProps) {
           </div>
 
           <div className="w-full mb-4">
-            <Label htmlFor="preco" value="Preço" />
-            <TextInput
-              onChange={handleChange}
+            <CurrencyInput
               name="price"
-              id="endereco"
-              value={form.price?.toString()}
+              id="deposito"
+              label="Preço"
+              value={form.price}
+              onChange={handleChangeCurrency}
               required
             />
           </div>
@@ -166,14 +213,14 @@ export function FormProperty(props: FormPropertyProps) {
               <Label htmlFor="cidade" value="Cidade" />
               <Select
                 onChange={handleChange}
-                name="cityId"
+                name="city_id"
                 id="cidade"
-                value={form.cityId}
+                value={form.city_id}
                 required
               >
                 <option value="">Selecione Cidade</option>
-                <option value="sp">São Paulo</option>
-                <option value="rj">Rio de Janeiro</option>
+                <option value="1">Barreiras</option>
+                <option value="2">Rio de Janeiro</option>
               </Select>
             </div>
 
@@ -220,7 +267,7 @@ export function FormProperty(props: FormPropertyProps) {
           </div>
 
           {/* Localização Latitude / Longitude */}
-          <div className="flex gap-4 mb-4">
+          {/* <div className="flex gap-4 mb-4">
             <div className="w-full">
               <Label htmlFor="latitude" value="Latitude" />
               <TextInput
@@ -246,7 +293,7 @@ export function FormProperty(props: FormPropertyProps) {
                 required
               />
             </div>
-          </div>
+          </div> */}
 
           <div className="col-span-2">
             <Button type="submit">

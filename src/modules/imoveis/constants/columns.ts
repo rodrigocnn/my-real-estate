@@ -5,6 +5,6 @@ export const columnsProperties = [
   },
   {
     headerName: "Tipo de Negociação",
-    field: "negotiationType",
+    field: "negotiation_type",
   },
 ];

@@ -8,12 +8,11 @@ import {
   propsUpdateProperty,
 } from "../constants";
 import { useUpdateMutation } from "@/hooks/useUpdateMutation";
+import { useRouter } from "next/router";
 
-export const useFormProperty = (
-  initialData?: Property,
-  edit: boolean = false
-) => {
+export const useFormProperty = (edit: boolean = false) => {
   const [form, setForm] = useState<Property>(INITIAL_STATE_FORM_PROPERTY);
+  const router = useRouter();
 
   const {
     mutate: createPropertyMutate,
@@ -26,12 +25,6 @@ export const useFormProperty = (
     isPending: isPendingUpdate,
     status: statusUpdate,
   } = useUpdateMutation(propsUpdateProperty);
-
-  useEffect(() => {
-    if (initialData) {
-      setForm(initialData);
-    }
-  }, [initialData]);
 
   const handleChange = (
     event: React.ChangeEvent<
@@ -56,6 +49,13 @@ export const useFormProperty = (
     }));
   };
 
+  const handleChangeCurrency = (name: string, value: number | undefined) => {
+    setForm((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
   const handleLocationChange = (latitude: number, longitude: number) => {
     setForm((prevForm) => ({
       ...prevForm,
@@ -69,7 +69,13 @@ export const useFormProperty = (
     try {
       if (edit) {
         updatePropertyMutate(form);
+        if (statusUpdate === "idle" || statusUpdate === "success") {
+          router.push("/admin/imoveis");
+        }
       } else {
+        if (status === "idle" || status === "success") {
+          router.push("/admin/imoveis");
+        }
         createPropertyMutate(form);
       }
     } catch (error) {
@@ -85,6 +91,7 @@ export const useFormProperty = (
     form,
     setForm,
     handleChange,
+    handleChangeCurrency,
     handleLocationChange,
     handleSubmit,
     resetForm,
