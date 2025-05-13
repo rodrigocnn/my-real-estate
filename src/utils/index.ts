@@ -15,3 +15,8 @@ export function formatPhone(value: string) {
     .replace(/(\d{5})(\d{4})$/, "$1-$2") // celular com 9 dígitos
     .replace(/(\d{4})(\d{4})$/, "$1-$2"); // telefone fixo com 8 dígitos
 }
+
+export function formatDateToPtBR(dateString?: string): string {
+  if (!dateString) return "";
+  return new Intl.DateTimeFormat("pt-BR").format(new Date(dateString));
+}
