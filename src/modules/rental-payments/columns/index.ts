@@ -1,7 +1,7 @@
 export const columnsRentalPayment = [
   {
     headerName: "Vencimento",
-    field: "dueDate",
+    field: "due_date",
   },
   {
     headerName: "Valor (R$)",
@@ -13,6 +13,6 @@ export const columnsRentalPayment = [
   },
   {
     headerName: "Pago em",
-    field: "paymentDate",
+    field: "payment_date",
   },
 ];

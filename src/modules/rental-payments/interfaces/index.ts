@@ -1,8 +1,8 @@
 export interface RentalPayment {
   id?: string;
-  rentalContractId: string;
-  dueDate: string;
-  paymentDate: string;
+  rental_contract_id: string;
+  due_date: string;
+  payment_date: string;
   amount: number;
   status: string;
 }
