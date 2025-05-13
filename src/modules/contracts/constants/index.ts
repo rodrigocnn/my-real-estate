@@ -2,17 +2,18 @@ import {
   contractCreate,
   contractDelete,
   contractFindAll,
+  contractFindOne,
   contractUpdate,
 } from "../api/contractsApi";
 import { Contract } from "../interfaces";
 
 export const INITIAL_FORM_CONTRACT = {
-  clientId: "",
-  propertyId: "",
-  startDate: "",
-  endDate: "",
-  monthlyRent: undefined,
-  depositAmount: undefined,
+  client_id: "",
+  property_id: "",
+  start_date: null,
+  end_date: null,
+  monthly_rent: undefined,
+  deposit_amount: undefined,
   status: "",
 };
 
@@ -37,4 +38,10 @@ export const propsDeleteContract = {
 export const propsFindAllContract = {
   queryKey: "get-contracts",
   queryFn: contractFindAll,
+};
+
+export const propsFindOneContract = {
+  queryKey: "get-contract",
+  queryFn: (id: string) => contractFindOne(id),
+  enabled: true,
 };

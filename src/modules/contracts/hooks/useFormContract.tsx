@@ -16,15 +16,8 @@ import { Client } from "@/modules/clients/interfaces";
 import { propsFindAllProperties } from "@/modules/imoveis/constants";
 import { mapContractFormData } from "../mapper";
 
-export const useFormContract = (
-  initialData?: Contract,
-  edit: boolean = false
-) => {
+export const useFormContract = (edit: boolean = false) => {
   const [form, setForm] = useState<Contract>(INITIAL_FORM_CONTRACT);
-  const [dateFormContract, setDateFormContract] = useState<DateFormContract>({
-    startDate: null,
-    endDate: null,
-  });
 
   const { data: clients } = useFindAllQuery<Client>(propsFindAllClients);
   const { data: properties } = useFindAllQuery<Property>(
@@ -55,20 +48,12 @@ export const useFormContract = (
       [name]: value,
     }));
   };
-
-  const handleSubmit = async (event?: React.FormEvent) => {
-    if (event) event.preventDefault();
-
-    try {
-      if (edit) {
-        updateContractMutate(form);
-      } else {
-        const formMapped = mapContractFormData(form, dateFormContract);
-        createContractMutate(formMapped);
-      }
-    } catch (error) {
-      console.error("Erro ao enviar:", error);
-    }
+  const handleDateChange = (name: string, value: Date | null) => {
+    console.log("entrou");
+    setForm((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
   };
 
   const handleChangeCurrency = (name: string, value: number | undefined) => {
@@ -78,11 +63,19 @@ export const useFormContract = (
     }));
   };
 
-  const handleDateChange = (name: string, value: Date | null) => {
-    setDateFormContract((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
+  const handleSubmit = async (event?: React.FormEvent) => {
+    if (event) event.preventDefault();
+
+    try {
+      if (edit) {
+        updateContractMutate(form);
+      } else {
+        const formMapped = mapContractFormData(form);
+        createContractMutate(formMapped);
+      }
+    } catch (error) {
+      console.error("Erro ao enviar:", error);
+    }
   };
 
   const resetForm = () => {
@@ -102,7 +95,6 @@ export const useFormContract = (
     clients,
     properties,
     handleDateChange,
-    dateFormContract,
     handleChangeCurrency,
   };
 };
