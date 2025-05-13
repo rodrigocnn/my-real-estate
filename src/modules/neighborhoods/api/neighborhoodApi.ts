@@ -2,26 +2,26 @@ import api from "@/services/api";
 import { Neighborhood } from "../interfaces";
 
 export const neighborhoodFindAll = async (): Promise<Neighborhood[]> => {
-  const response = await api.index("bairros");
+  const response = await api.index("neighborhoods");
   return response.data;
 };
 
 export const NeighborhoodCreate = async (
   neighborhood: Neighborhood
 ): Promise<Neighborhood> => {
-  const response = await api.store("bairros", neighborhood);
+  const response = await api.store("neighborhoods", neighborhood);
   return response.data;
 };
 
 export const NeighborhoodDelete = async (id: string): Promise<Neighborhood> => {
-  const response = await api.delete("bairros", id);
+  const response = await api.delete("neighborhoods", id);
   return response.data;
 };
 
 export const NeighborhoodFindOne = async (
   id: string
 ): Promise<Neighborhood> => {
-  const response = await api.show("bairros", id);
+  const response = await api.show("neighborhoods", id);
   return response.data;
 };
 
@@ -29,7 +29,7 @@ export const NeighborhoodUpdate = async (
   neighborhood: Neighborhood
 ): Promise<Neighborhood> => {
   const response = await api.update(
-    "bairros",
+    "neighborhoods",
     neighborhood?.id as string,
     neighborhood
   );
