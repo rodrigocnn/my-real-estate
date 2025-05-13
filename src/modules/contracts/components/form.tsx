@@ -1,6 +1,8 @@
 import { Button, Datepicker, Label, Select, TextInput } from "flowbite-react";
 import { useFormContract } from "../hooks/useFormContract";
 import { CurrencyInput } from "@/components/admin/InputCurrency";
+import { useEffect } from "react";
+import { start } from "repl";
 
 interface FormContractProps {
   edit?: boolean;
@@ -8,18 +10,31 @@ interface FormContractProps {
 }
 
 export function FormContract(props: FormContractProps) {
-  const initialData = props.initialData || [];
+  const { initialData, edit } = props;
 
   const {
     form,
+    setForm,
     handleChange,
     handleSubmit,
     clients,
     properties,
-    dateFormContract,
     handleChangeCurrency,
     handleDateChange,
-  } = useFormContract(initialData, props.edit);
+  } = useFormContract(edit);
+
+  useEffect(() => {
+    if (initialData && edit) {
+      const formMapped = {
+        ...initialData,
+        start_date: initialData.start_date
+          ? new Date(initialData.start_date)
+          : null,
+        end_date: initialData.end_date ? new Date(initialData.end_date) : null,
+      };
+      setForm(formMapped);
+    }
+  }, [initialData, edit]);
 
   return (
     <div className="bg-white p-4 rounded">
@@ -30,11 +45,12 @@ export function FormContract(props: FormContractProps) {
               <Label htmlFor="cliente" value="Cliente" />
               <Select
                 onChange={handleChange}
-                name="clientId"
+                name="client_id"
                 id="cliente"
-                value={form.clientId}
+                value={form.client_id}
                 required
               >
+                <option value="">Selecione Cliente</option>
                 {clients?.map((cliente) => {
                   return <option value={cliente.id}>{cliente.name}</option>;
                 })}
@@ -45,11 +61,12 @@ export function FormContract(props: FormContractProps) {
               <Label htmlFor="Imovel" value="Imovel" />
               <Select
                 onChange={handleChange}
-                name="propertyId"
-                id="tipoNegociacao"
-                value={form.propertyId}
+                name="property_id"
+                id="Imovel"
+                value={form.property_id}
                 required
               >
+                <option value="">Selecione Imóvel</option>
                 {properties?.map((imovel) => {
                   return <option value={imovel.id}>{imovel.title}</option>;
                 })}
@@ -65,9 +82,9 @@ export function FormContract(props: FormContractProps) {
                 language="pt-BR"
                 labelTodayButton="Hoje"
                 labelClearButton="Limpar"
-                name="startDate"
-                onChange={(date) => handleDateChange("startDate", date)}
-                value={dateFormContract?.startDate}
+                name="start_date"
+                onChange={(date) => handleDateChange("start_date", date)}
+                value={form.start_date as Date}
               />
             </div>
 
@@ -77,9 +94,9 @@ export function FormContract(props: FormContractProps) {
                 language="pt-BR"
                 labelTodayButton="Hoje"
                 labelClearButton="Limpar"
-                name="endDate"
-                onChange={(date) => handleDateChange("endDate", date)}
-                value={dateFormContract?.endDate}
+                name="end_date"
+                onChange={(date) => handleDateChange("end_date", date)}
+                value={form.end_date as Date}
               />
             </div>
           </div>
@@ -87,10 +104,10 @@ export function FormContract(props: FormContractProps) {
           <div className="flex gap-4 mb-4">
             <div className="w-full">
               <CurrencyInput
-                name="depositAmount"
+                name="deposit_amount"
                 id="deposito"
                 label="Depósito"
-                value={form.depositAmount}
+                value={form.deposit_amount}
                 onChange={handleChangeCurrency}
                 required
               />
@@ -98,10 +115,10 @@ export function FormContract(props: FormContractProps) {
 
             <div className="w-full">
               <CurrencyInput
-                name="monthlyRent"
+                name="monthly_rent"
                 id="valor"
-                label="Valor Pago"
-                value={form.monthlyRent}
+                label="Valor do Contrato"
+                value={form.monthly_rent}
                 onChange={handleChangeCurrency}
                 required
               />
@@ -111,8 +128,9 @@ export function FormContract(props: FormContractProps) {
           <div className="w-full mb-4">
             <Label htmlFor="status" value="Status" />
             <TextInput
-              disabled
+              disabled={!edit}
               type="text"
+              value={form.status}
               name="status"
               id="status"
               placeholder="Ativo"

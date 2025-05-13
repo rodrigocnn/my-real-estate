@@ -21,11 +21,11 @@ export function DeleteCustomColumn(row: any) {
           },
         }}
       >
-        <p> Deseja realmente excluir o imóvel selecionado?</p>
+        <p> Deseja realmente excluir o contrato selecionado?</p>
       </CustomModal>
 
       <button
-        onClick={() => handleDelete(row.row)} // Chame a função de edição passando o ID
+        onClick={() => handleDelete(row.row)}
         className="text-blue-500 hover:text-blue-700 focus:outline-none mr-2"
       >
         <PiTrash className="text-xl text-red-500" />
