@@ -20,3 +20,19 @@ export function formatDateToPtBR(dateString?: string): string {
   if (!dateString) return "";
   return new Intl.DateTimeFormat("pt-BR").format(new Date(dateString));
 }
+
+export function formatarToCurrencyBR(valor: number | string): string {
+  const numero =
+    typeof valor === "string" ? parseFloat(valor.replace(",", ".")) : valor;
+
+  if (isNaN(numero)) {
+    throw new Error("Valor inválido para formatação");
+  }
+
+  return new Intl.NumberFormat("pt-BR", {
+    style: "currency",
+    currency: "BRL",
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  }).format(numero);
+}

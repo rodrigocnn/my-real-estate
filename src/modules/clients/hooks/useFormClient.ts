@@ -1,4 +1,7 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import * as Yup from "yup";
+import { toast } from "react-toastify";
+
 import { Client } from "../interfaces";
 
 import { useCreateMutation } from "@/hooks/useCreateMutation";
@@ -10,6 +13,7 @@ import {
 import { useUpdateMutation } from "@/hooks/useUpdateMutation";
 import { formatCPF, formatPhone } from "@/utils";
 import { useRouter } from "next/router";
+import { clientsSchema } from "../validations";
 
 export const useFormClient = (initialData?: Client, edit: boolean = false) => {
   const [form, setForm] = useState<Client>(INITIAL_STATE_FORM_CLIENT);
@@ -55,21 +59,39 @@ export const useFormClient = (initialData?: Client, edit: boolean = false) => {
     }));
   };
 
+  const validation = async (form: Client) => {
+    try {
+      await clientsSchema.validate(form);
+      return true;
+    } catch (error: any) {
+      if (error instanceof Yup.ValidationError) {
+        error.errors.forEach((errMsg) => {
+          toast.error(errMsg);
+        });
+      } else {
+        toast.error("Erro inesperado na validação.");
+      }
+      return false;
+    }
+  };
+
   const handleSubmit = async (event?: React.FormEvent) => {
     if (event) event.preventDefault();
 
-    try {
-      if (edit) {
-        updateClientMutate(form);
-      } else {
-        createClientMutate(form);
-      }
+    if (await validation(form)) {
+      try {
+        if (edit) {
+          updateClientMutate(form);
+        } else {
+          createClientMutate(form);
+        }
 
-      if (status === "idle" || status === "success") {
-        router.push("/admin/clientes");
+        if (status === "idle" || status === "success") {
+          router.push("/admin/clientes");
+        }
+      } catch (error) {
+        console.error("Erro ao enviar:", error);
       }
-    } catch (error) {
-      console.error("Erro ao enviar:", error);
     }
   };
 

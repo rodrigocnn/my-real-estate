@@ -1,4 +1,5 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import * as Yup from "yup";
 
 import { Property } from "../interfaces";
 import { useCreateMutation } from "@/hooks/useCreateMutation";
@@ -9,6 +10,8 @@ import {
 } from "../constants";
 import { useUpdateMutation } from "@/hooks/useUpdateMutation";
 import { useRouter } from "next/router";
+import { propertySchema } from "../validations";
+import { validation } from "@/utils/validations";
 
 export const useFormProperty = (edit: boolean = false) => {
   const [form, setForm] = useState<Property>(INITIAL_STATE_FORM_PROPERTY);
@@ -66,20 +69,22 @@ export const useFormProperty = (edit: boolean = false) => {
   const handleSubmit = async (event?: React.FormEvent) => {
     if (event) event.preventDefault();
 
-    try {
-      if (edit) {
-        updatePropertyMutate(form);
-        if (statusUpdate === "idle" || statusUpdate === "success") {
-          router.push("/admin/imoveis");
+    if (await validation(form, propertySchema as Yup.Schema)) {
+      try {
+        if (edit) {
+          updatePropertyMutate(form);
+          if (statusUpdate === "idle" || statusUpdate === "success") {
+            router.push("/admin/imoveis");
+          }
+        } else {
+          if (status === "idle" || status === "success") {
+            router.push("/admin/imoveis");
+          }
+          createPropertyMutate(form);
         }
-      } else {
-        if (status === "idle" || status === "success") {
-          router.push("/admin/imoveis");
-        }
-        createPropertyMutate(form);
+      } catch (error) {
+        console.error("Erro ao enviar:", error);
       }
-    } catch (error) {
-      console.error("Erro ao enviar:", error);
     }
   };
 

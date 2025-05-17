@@ -1,5 +1,9 @@
 export const columnsProperties = [
   {
+    headerName: "Id",
+    field: "id",
+  },
+  {
     headerName: "Imóveis",
     field: "title",
   },

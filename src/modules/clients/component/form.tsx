@@ -38,7 +38,6 @@ export function FormClient(props: FormClientProps) {
                 name="name"
                 id="nome"
                 value={form.name}
-                required
               />
             </div>
 
@@ -49,7 +48,6 @@ export function FormClient(props: FormClientProps) {
                 name="email"
                 id="email"
                 value={form.email}
-                required
               />
             </div>
           </div>
@@ -62,7 +60,6 @@ export function FormClient(props: FormClientProps) {
                 name="cpf"
                 id="cpf"
                 value={form.cpf}
-                required
               />
             </div>
 
@@ -73,7 +70,6 @@ export function FormClient(props: FormClientProps) {
                 name="phone"
                 id="telefone"
                 value={form.phone}
-                required
               />
             </div>
           </div>

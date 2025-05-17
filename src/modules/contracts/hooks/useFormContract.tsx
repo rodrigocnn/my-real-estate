@@ -1,5 +1,7 @@
 import { useState } from "react";
-import { Contract, DateFormContract } from "../interfaces";
+import * as Yup from "yup";
+
+import { Contract } from "../interfaces";
 
 import { useCreateMutation } from "@/hooks/useCreateMutation";
 import { useUpdateMutation } from "@/hooks/useUpdateMutation";
@@ -15,10 +17,11 @@ import { propsFindAllClients } from "@/modules/clients/constants";
 import { Client } from "@/modules/clients/interfaces";
 import { propsFindAllProperties } from "@/modules/imoveis/constants";
 import { mapContractFormData } from "../mapper";
+import { contractsSchema } from "../validations";
+import { validation } from "@/utils/validations";
 
 export const useFormContract = (edit: boolean = false) => {
   const [form, setForm] = useState<Contract>(INITIAL_FORM_CONTRACT);
-
   const { data: clients } = useFindAllQuery<Client>(propsFindAllClients);
   const { data: properties } = useFindAllQuery<Property>(
     propsFindAllProperties
@@ -49,7 +52,6 @@ export const useFormContract = (edit: boolean = false) => {
     }));
   };
   const handleDateChange = (name: string, value: Date | null) => {
-    console.log("entrou");
     setForm((prev) => ({
       ...prev,
       [name]: value,
@@ -66,15 +68,17 @@ export const useFormContract = (edit: boolean = false) => {
   const handleSubmit = async (event?: React.FormEvent) => {
     if (event) event.preventDefault();
 
-    try {
-      if (edit) {
-        updateContractMutate(form);
-      } else {
-        const formMapped = mapContractFormData(form);
-        createContractMutate(formMapped);
+    if (await validation(form, contractsSchema as Yup.Schema)) {
+      try {
+        if (edit) {
+          updateContractMutate(form);
+        } else {
+          const formMapped = mapContractFormData(form);
+          createContractMutate(formMapped);
+        }
+      } catch (error) {
+        console.error("Erro ao enviar:", error);
       }
-    } catch (error) {
-      console.error("Erro ao enviar:", error);
     }
   };
 

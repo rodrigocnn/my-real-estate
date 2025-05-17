@@ -6,7 +6,7 @@ interface CustomModalProps {
   onClose: () => void;
   title?: string;
   children: ReactNode;
-  primaryAction: {
+  primaryAction?: {
     label: string;
     onClick: () => void;
     color?: string;
@@ -32,7 +32,9 @@ export function CustomModal({
         <Button color="gray" onClick={onClose}>
           Fechar
         </Button>
-        <Button onClick={primaryAction.onClick}>{primaryAction.label}</Button>
+        {primaryAction && (
+          <Button onClick={primaryAction.onClick}>{primaryAction.label}</Button>
+        )}
       </Modal.Footer>
     </Modal>
   );

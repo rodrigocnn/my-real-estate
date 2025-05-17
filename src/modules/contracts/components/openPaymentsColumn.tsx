@@ -5,8 +5,7 @@ import { useDeleteCustomColum } from "../hooks/useDeleteCustomColumn";
 import ShowPayments from "@/modules/rental-payments/component/showPayments";
 
 export function OpenPaymentsColumn(row: any) {
-  const { handleDelete, openModal, setOpenModal, deleteCity } =
-    useDeleteCustomColum();
+  const { handleDelete, openModal, setOpenModal } = useDeleteCustomColum();
 
   return (
     <>
@@ -15,15 +14,8 @@ export function OpenPaymentsColumn(row: any) {
         title="Pagamentos"
         show={openModal}
         onClose={() => setOpenModal(false)}
-        primaryAction={{
-          label: "Sim",
-          onClick: () => {
-            deleteCity();
-            setOpenModal(false);
-          },
-        }}
       >
-        <ShowPayments contractId={row.row.id} />
+        <ShowPayments contract={row.row} />
       </CustomModal>
 
       <button

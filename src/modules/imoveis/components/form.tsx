@@ -39,7 +39,6 @@ export function FormProperty(props: FormPropertyProps) {
                 name="property_type_id"
                 id="tipoImovel"
                 value={form.property_type_id}
-                required
               >
                 <option value="">Selecione</option>
                 {types.map((item) => (
@@ -57,7 +56,6 @@ export function FormProperty(props: FormPropertyProps) {
                 name="owner_id"
                 id="proprietario"
                 value={form.owner_id}
-                required
               >
                 <option value="">Selecione</option>
                 {owners.map((item) => (
@@ -75,7 +73,6 @@ export function FormProperty(props: FormPropertyProps) {
                 name="negotiation_type"
                 id="tipoNegociacao"
                 value={form.negotiation_type}
-                required
               >
                 <option value="">Selecione</option>
                 <option value="aluguel">Alugar</option>
@@ -92,7 +89,6 @@ export function FormProperty(props: FormPropertyProps) {
                 name="title"
                 id="titulo"
                 value={form.title}
-                required
               />
             </div>
           </div>
@@ -106,7 +102,6 @@ export function FormProperty(props: FormPropertyProps) {
               id="descricao"
               rows={4}
               value={form.description}
-              required
             />
           </div>
 
@@ -117,7 +112,6 @@ export function FormProperty(props: FormPropertyProps) {
               label="Preço"
               value={form.price}
               onChange={handleChangeCurrency}
-              required
             />
           </div>
 
@@ -133,7 +127,6 @@ export function FormProperty(props: FormPropertyProps) {
                 name="bedrooms"
                 id="quartos"
                 value={form.bedrooms?.toString()}
-                required
               >
                 <option value="">Selecione</option>
                 <option value="1">1</option>
@@ -150,7 +143,6 @@ export function FormProperty(props: FormPropertyProps) {
                 name="bathrooms"
                 id="banheiros"
                 value={form.bathrooms?.toString()}
-                required
               >
                 <option value="">Selecione</option>
                 <option value="1">1</option>
@@ -167,7 +159,6 @@ export function FormProperty(props: FormPropertyProps) {
                 name="suites"
                 id="suites"
                 value={form.suites?.toString()}
-                required
               >
                 <option value="">Selecione</option>
                 <option value="0">Nenhuma</option>
@@ -189,7 +180,6 @@ export function FormProperty(props: FormPropertyProps) {
               name="address"
               id="endereco"
               value={form.address}
-              required
             />
           </div>
 
@@ -201,7 +191,6 @@ export function FormProperty(props: FormPropertyProps) {
                 name="neighborhood"
                 id="bairro"
                 value={form?.neighborhood}
-                required
               >
                 <option value="">Selecione Bairro</option>
                 <option value="centro">Centro</option>
@@ -216,7 +205,6 @@ export function FormProperty(props: FormPropertyProps) {
                 name="city_id"
                 id="cidade"
                 value={form.city_id}
-                required
               >
                 <option value="">Selecione Cidade</option>
                 <option value="1">Barreiras</option>
@@ -231,7 +219,6 @@ export function FormProperty(props: FormPropertyProps) {
                 name="state"
                 id="estado"
                 value={form.state}
-                required
               >
                 <option value="">Selecione Estado</option>
 
@@ -277,7 +264,7 @@ export function FormProperty(props: FormPropertyProps) {
                 name="latitude"
                 id="latitude"
                 value={form.latitude?.toString()}
-                required
+               
               />
             </div>
 
@@ -290,7 +277,7 @@ export function FormProperty(props: FormPropertyProps) {
                 name="longitude"
                 id="longitude"
                 value={form.longitude?.toString()}
-                required
+               
               />
             </div>
           </div> */}
