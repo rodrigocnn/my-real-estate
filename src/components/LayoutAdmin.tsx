@@ -1,9 +1,11 @@
 import React, { ReactNode } from "react";
 import { Sidebar } from "./Sidebar";
 import { useAuthGuard } from "@/hooks/useAuthGuard";
+import { useLogout } from "@/hooks/useLogout";
 
 const LayoutAdmin = ({ children }: { children: ReactNode }) => {
   const { isChecking } = useAuthGuard();
+  const { logout } = useLogout();
 
   if (isChecking) {
     return <div className="text-white p-6">Verificando autenticação...</div>;
@@ -19,7 +21,10 @@ const LayoutAdmin = ({ children }: { children: ReactNode }) => {
         {/* Header */}
         <header className="text-white p-4 flex justify-between items-center">
           <h1 className="text-xl font-semibold">Área Administrativa</h1>
-          <button className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600">
+          <button
+            onClick={() => logout()}
+            className="bg-red-500 mr-2 text-white px-4 py-2 rounded hover:bg-red-600"
+          >
             Sair
           </button>
         </header>
