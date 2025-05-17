@@ -17,10 +17,15 @@ export function useLogin() {
     setError(null);
 
     try {
-      const response = await fetch("http://localhost:8080/auth/login", {
+      const response = await fetch("http://localhost:8080/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, password }),
+        body: JSON.stringify({
+          user: {
+            email,
+            password,
+          },
+        }),
       });
 
       if (!response.ok) {
@@ -29,7 +34,7 @@ export function useLogin() {
 
       const data: LoginResponse = await response.json();
       localStorage.setItem("token", data.token);
-      router.push("/admin");
+      router.push("/admin/home");
     } catch (err: any) {
       setError(err.message || "Erro inesperado");
     } finally {
