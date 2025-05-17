@@ -2,7 +2,6 @@ import { Button, Datepicker, Label, Select, TextInput } from "flowbite-react";
 import { useFormContract } from "../hooks/useFormContract";
 import { CurrencyInput } from "@/components/admin/InputCurrency";
 import { useEffect } from "react";
-import { start } from "repl";
 
 interface FormContractProps {
   edit?: boolean;
@@ -48,7 +47,6 @@ export function FormContract(props: FormContractProps) {
                 name="client_id"
                 id="cliente"
                 value={form.client_id}
-                required
               >
                 <option value="">Selecione Cliente</option>
                 {clients?.map((cliente) => {
@@ -64,7 +62,6 @@ export function FormContract(props: FormContractProps) {
                 name="property_id"
                 id="Imovel"
                 value={form.property_id}
-                required
               >
                 <option value="">Selecione Imóvel</option>
                 {properties?.map((imovel) => {
@@ -109,7 +106,6 @@ export function FormContract(props: FormContractProps) {
                 label="Depósito"
                 value={form.deposit_amount}
                 onChange={handleChangeCurrency}
-                required
               />
             </div>
 
@@ -120,21 +116,24 @@ export function FormContract(props: FormContractProps) {
                 label="Valor do Contrato"
                 value={form.monthly_rent}
                 onChange={handleChangeCurrency}
-                required
               />
             </div>
           </div>
 
           <div className="w-full mb-4">
             <Label htmlFor="status" value="Status" />
-            <TextInput
-              disabled={!edit}
-              type="text"
-              value={form.status}
+
+            <Select
+              onChange={handleChange}
               name="status"
               id="status"
-              placeholder="Ativo"
-            />
+              value={form.status}
+              disabled={!edit}
+            >
+              <option value="">Selecione Status</option>
+              <option value="ativo">Ativo</option>;
+              <option value="inativo">Inativo</option>;
+            </Select>
           </div>
 
           <div className="col-span-2">

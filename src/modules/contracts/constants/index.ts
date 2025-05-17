@@ -1,3 +1,4 @@
+import router from "next/router";
 import {
   contractCreate,
   contractDelete,
@@ -14,19 +15,25 @@ export const INITIAL_FORM_CONTRACT = {
   end_date: null,
   monthly_rent: undefined,
   deposit_amount: undefined,
-  status: "",
+  status: "ativo",
 };
 
 export const propsCreateContract = {
   queryKey: "get-contracts",
   onSuccessMsg: "Cliente cadastrado com sucesso",
   mutationFn: (contract: Contract) => contractCreate(contract),
+  onSuccess: () => {
+    router.push("/admin/contratos");
+  },
 };
 
 export const propsUpdateContract = {
   queryKey: "get-contracts",
   onSuccessMsg: "Contrato atualizado com sucesso",
   mutationFn: (contract: Contract) => contractUpdate(contract),
+  onSuccess: () => {
+    router.push("/admin/contratos");
+  },
 };
 
 export const propsDeleteContract = {

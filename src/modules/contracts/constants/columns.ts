@@ -1,5 +1,9 @@
 export const columnsContract = [
   {
+    headerName: "Id",
+    field: "id",
+  },
+  {
     headerName: "Cliente",
     field: "clientName",
   },
