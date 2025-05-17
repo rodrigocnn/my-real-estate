@@ -8,9 +8,9 @@ import {
 import { RentalPayment } from "../interfaces";
 
 export const INITIAL_STATE_FORM_RENTAL_PAYMENT = {
-  rentalContractId: "",
-  dueDate: "",
-  paymentDate: "",
+  rental_contract_id: "",
+  due_date: "",
+  payment_date: null,
   amount: 0,
   status: "",
 };

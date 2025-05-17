@@ -19,7 +19,7 @@ export function useEditRentalPayment() {
   const [payment, setPayment] = useState<RentalPayment | undefined>();
 
   const handleEdit = (row: RentalPayment) => {
-    router.push(`/admin/rental-payments/edit/${row.id}`);
+    router.push(`/admin/pagamentos/editar/${row.id}`);
     setPayment(row);
   };
 
