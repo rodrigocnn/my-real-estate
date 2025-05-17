@@ -25,7 +25,9 @@ export function Sidebar() {
   return (
     <div className="w-64 bg-gray-800 text-white">
       <div className="flex justify-center py-6">
-        <span> Antonio Imóveis </span>
+        <span className="pb-2 center border-b border-b-gray-700">
+          Antonio Nunes - Sistema de Gestão de Imóveis{" "}
+        </span>
       </div>
       <nav className="mt-4">
         <ul>
@@ -59,9 +61,9 @@ export function Sidebar() {
             label="Contratos"
           />
           <ItemSidebar
-            href="/admin/lancamentos"
+            href="/admin/pagamentos"
             Icon={<BsCashStack className="text-xl" />}
-            label="Lançamentos"
+            label="Pagamentos"
           />
 
           {/* Menu de Configurações */}
