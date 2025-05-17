@@ -38,6 +38,7 @@ export default function Cidades() {
 
   return (
     <LayoutAdmin>
+      <h2 className="text-2xl font-semibold  mb-4">Cidades</h2>
       <div className="bg-white p-4 rounded h-screen">
         {isLoading ? (
           <div className="flex justify-center items-center h-full">

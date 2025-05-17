@@ -18,7 +18,6 @@ export default function Bairros() {
 
   const {
     handleClick,
-    setOpenModal,
     openModal,
     createNeighborhood,
     neighborhood,
@@ -29,6 +28,7 @@ export default function Bairros() {
 
   return (
     <LayoutAdmin>
+      <h2 className="text-2xl font-semibold  mb-4">Bairros</h2>
       <div className="bg-white p-4 rounded h-screen ">
         <CustomModal
           title="Cadastrar Bairro"

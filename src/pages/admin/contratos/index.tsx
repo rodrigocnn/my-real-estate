@@ -11,6 +11,7 @@ import { columnsContract } from "@/modules/contracts/constants/columns";
 
 import { OpenPaymentsColumn } from "@/modules/contracts/components/openPaymentsColumn";
 import LayoutAdmin from "@/components/LayoutAdmin";
+import { FilterPayment } from "@/modules/rental-payments/component/filterPayment";
 
 export default function Imoveis() {
   const { data: contracts } = useFindAllQuery<Contract>(propsFindAllContract);
@@ -30,6 +31,7 @@ export default function Imoveis() {
     return (
       contracts?.map((contract) => ({
         ...contract,
+
         clientName: contract.client?.name ?? "",
         propertyTitle: contract.property?.title ?? "",
         startDate: formatDateToPtBR(contract.start_date as string),
@@ -40,6 +42,7 @@ export default function Imoveis() {
 
   return (
     <LayoutAdmin>
+      <h2 className="text-2xl font-semibold  mb-4">Contratos</h2>
       <div className="bg-white p-4 rounded h-screen ">
         <div className="overflow-x-auto">
           <DataGrid

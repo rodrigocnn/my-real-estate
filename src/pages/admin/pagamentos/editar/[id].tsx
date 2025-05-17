@@ -1,14 +1,22 @@
 import LayoutAdmin from "@/components/LayoutAdmin";
+import { useFindAllQuery } from "@/hooks/useFindAllQuery";
 import { useFindOneQuery } from "@/hooks/useFindOneQuery";
-import { FormClient } from "@/modules/clients/component/form";
-import { propsFindOneClient } from "@/modules/clients/constants";
-import { Client } from "@/modules/clients/interfaces";
+import { propsFindAllContract } from "@/modules/contracts/constants";
+import { Contract } from "@/modules/contracts/interfaces";
+
+import { FormRentalPayment } from "@/modules/rental-payments/component/formRentalPayment";
+import { propsFindOneRentalPayment } from "@/modules/rental-payments/constants";
+import { RentalPayment } from "@/modules/rental-payments/interfaces";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 
-export default function ProprietariosCadastrar() {
+export default function PagamentosEditar() {
   const router = useRouter();
-  const { data, fetchById } = useFindOneQuery<Client>(propsFindOneClient);
+  const { data, fetchById } = useFindOneQuery<RentalPayment>(
+    propsFindOneRentalPayment
+  );
+
+  const { data: contracts } = useFindAllQuery<Contract>(propsFindAllContract);
 
   useEffect(() => {
     fetchById(router.query.id as string);
@@ -17,7 +25,11 @@ export default function ProprietariosCadastrar() {
   return (
     <LayoutAdmin>
       <h2 className="text-2xl font-semibold  mb-4">Editar Pagamento</h2>
-      <FormClient edit={true} initialData={data as Client} />
+      <FormRentalPayment
+        edit={true}
+        constracts={contracts}
+        initialData={data as RentalPayment}
+      />
     </LayoutAdmin>
   );
 }
